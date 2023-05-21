@@ -1,0 +1,9 @@
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/common/exceptions/ExceptionResponse.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/modules/users/repositories/ShowUserRepository.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/modules/users/entities/User.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/common/exceptions/ApiError.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/modules/users/controllers/ShowUserController.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/common/exceptions/GlobalExceptionHandler.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/App.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/common/abstractions/DateAudit.java
+/home/iurylippo/projects/academic/sia-localiza/backend/sia_localiza_api/src/main/java/com/sia/localiza/api/modules/users/repositories/UserRepository.java

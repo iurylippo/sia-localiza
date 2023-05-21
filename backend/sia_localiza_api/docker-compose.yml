@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: sialocaliza_app
+    image: francescoxx/java_app:1.0.0
+    build: .
+    environment:
+      - APP_ENV=development
+      - APP_PORT=8000
+      - APP_URL=http://localhost:8000
+      - DATABASE_URL=jdbc:postgresql://db:5432/sialocaliza
+      - DATABASE_USER=sialocaliza_user
+      - DATABASE_PASSWORD=password
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - sialocaliza_bridge
+  db:
+    image: postgres:14.8
+    container_name: sialocaliza_db
+    restart: unless-stopped
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DB}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - sialocaliza_bridge
+networks:
+  sialocaliza_bridge:
+    driver: bridge

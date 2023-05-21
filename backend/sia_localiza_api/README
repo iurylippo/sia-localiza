@@ -1,0 +1,7 @@
+# SIA LOCALIZA BACKEND
+
+
+### comands
+ mvn package install dependencies
+ mvn dependency:purge-local-repository //puxa novamente as dependencias
+ mvn clean package -DskipTests //build do arquivo .jar sem tests
