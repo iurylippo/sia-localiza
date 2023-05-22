@@ -27,6 +27,17 @@ public class User extends DateAudit {
   @Column(name = "email", nullable = false)
   private String email;
 
+  @Column(name = "phone", nullable = true)
+  private String phone;
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
   public UUID getId() {
     return id;
   }

@@ -3,9 +3,11 @@ version: '3.9'
 services:
   app:
     container_name: sialocaliza_app
-    image: francescoxx/java_app:1.0.0
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
     environment:
+      - APP_NAME=sialocaliza_api
       - APP_ENV=development
       - APP_PORT=8000
       - APP_URL=http://localhost:8000
@@ -14,6 +16,13 @@ services:
       - DATABASE_PASSWORD=password
     ports:
       - 8000:8000
+      - 35729:35729
+      - 5005:5005
+    volumes:
+      - ./:/app
+      - ./.m2:/root/.m2
+    working_dir: /app
+    command: sh run.sh
     depends_on:
       - db
     networks:
