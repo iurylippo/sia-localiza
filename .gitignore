@@ -3,5 +3,4 @@ pgdata/
 .idea
 .env
 .m2
-.mvn
 target/
