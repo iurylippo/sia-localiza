@@ -34,9 +34,9 @@ services:
     ports: 
       - 5432:5432
     environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_DB}
+      POSTGRES_USER: sialocaliza_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sialocaliza
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     networks:
