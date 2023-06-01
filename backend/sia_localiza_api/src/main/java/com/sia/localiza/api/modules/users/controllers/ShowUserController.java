@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sia.localiza.api.modules.users.entities.User;
 import com.sia.localiza.api.modules.users.repositories.ShowUserRepository;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 
 @RestController
+@Hidden
 @RequestMapping("/api/users/{id}")
 public class ShowUserController {
 

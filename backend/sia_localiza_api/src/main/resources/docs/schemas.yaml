@@ -1,0 +1,39 @@
+openapi: 3.0.1
+components:
+  securitySchemes:
+        UserAuth:
+            type: http
+            scheme: bearer
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 8eed7353-fe31-43d6-be80-389ac9f49e3f
+        name:
+          type: string
+          example: jhon
+        phone:
+          type: string
+          example: "8199999999"
+        email:
+          type: string
+          example: jhon@email.com
+# components:
+#   schemas:
+#     User:
+#       type: object
+#       properties:
+#         name:
+#           type: string
+#           example: jhon
+#         email:
+#           type: string
+#           example: jhon@gmail.com
+#         phone:
+#           type: string
+#           example: "8199999999"
+#         password:
+#           type: string
+#           example: jhon123
