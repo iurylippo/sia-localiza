@@ -17,10 +17,8 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 @OpenAPIDefinition
 public class SpringDocConfig {
     @Bean
-    public OpenAPI baseOpenAPI() {
+    OpenAPI baseOpenAPI() {
         ParseOptions parseOptions = new ParseOptions();
-        // parseOptions.setResolve(true);
-        // parseOptions.setResolveFully(true);
         parseOptions.setFlatten(true); 
 
         final OpenAPI openAPISchemas = new OpenAPIV3Parser().read("./docs/schemas.yaml", null, parseOptions);
@@ -42,12 +40,4 @@ public class SpringDocConfig {
 
         return openAPI;
     }
-
-    // @Bean
-    // public GroupedOpenApi httpApi() {
-    //     return GroupedOpenApi.builder()
-    //             .group("http")
-    //             .pathsToMatch("/**")
-    //             .build();
-    // }
 }
