@@ -2,19 +2,166 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+@layer base {
+	:root {
+	  --background: #f0f2f5;
+	  --title: #44546A;
+  
+	  --color-primary-200: #0fe3f7;
+	  --color-primary-300: #1fdaeb;
+	  --color-primary-400: #21d7e7;
+	  --color-primary-500: #24BBCA;
+	  --color-primary-600: #2daab6;
+	  
+	  --color-secondary-200: #eaf6f3;
+	  --color-secondary-300: #d9ece7;
+	  --color-secondary-400: #d0e9e3;
+	  --color-secondary-500: #BFE0D8;
+	  --color-secondary-600: #b4d0c9;
+  
+	  --color-danger: #ff3131f2;
+	  --text-primary: #0E3469;
+	}
+  
+	@media (max-width: 1024px) {
+	  html {
+		font-size: 93.75%;
+	  }
+	}
+  
+	@media (max-width: 768px) {
+	  html {
+		font-size: 87.5%;
+	  }
+	}
+  
+	body {
+	  -webkit-font-feature-settings: 'lnum';
+	  -moz-font-feature-settings: 'lnum';
+	  font-feature-settings: 'lnum';
+	  background: var(--background);
+	}
+  
+	::-webkit-scrollbar-track {
+	  background-color: #e4e4e4;
+	}
+  
+	::-webkit-scrollbar {
+	  width: 15px;
+	  height: 20px;
+	}
+	
+	::-webkit-scrollbar-thumb {
+		border: 5px solid transparent;
+		background-color: var(--color-primary-500);
+		background-clip: content-box;
+	}
+  
+	a {
+	  color: inherit;
+	  text-decoration: none;
+	}
+  
+	button {
+	  cursor: pointer;
+	}
+  
+	input:focus {
+	  box-shadow:0, 0, 0;
+	}
+  
+	h1, h2, h3, h4, h5, h6, strong {
+	  font-weight: 700;
+	}
+  
+	[disabled] {
+	  opacity: 0.6;
+	  cursor: not-allowed;
+	}
+  }
+  
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -22,85 +169,108 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
-ol, ul {
+
+ol,
+ul {
 	list-style: none;
 }
-blockquote, q {
+
+blockquote,
+q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 
-
-
-g > rect:hover {
+g>rect:hover {
 	cursor: pointer;
 	fill: #24BBCA;
 }
 
-g > path {
+g>path {
 	pointer-events: none;
 }
 
-  #map-container {
+#map-container {
 	position: relative;
-  }
+}
 
-  #pin {
-    position: absolute;
-    bottom: 166px;
-    left: 370px;
-  }
-  
-  .circle-1, .circle-2, .circle-3, .circle-4 {
+#pin {
+	position: absolute;
+	bottom: 166px;
+	left: 370px;
+}
+
+.circle-1,
+.circle-2,
+.circle-3,
+.circle-4 {
 	animation: circles-fade 1.5s infinite;
 	animation-direction: alternate;
-	anination-timing-function: ease-in-out;
 	transform-origin: center;
-  }
-  
-  .circle-4 {
-	animation-delay: 0;
-  }
-  .circle-3 {
-	animation-delay: .25s;
-  }
-  .circle-2 {
-	animation-delay: .5s;
-  }
-  .circle-1 {
-	animation-delay: .75s;
-  }
-  
-  
-  @keyframes circles-fade {
-	0% {
-	  transform: scale(.7);
-	  opacity: 0;
-	}
-	100% {
-	  transform: scale(1);
-	  opacity: 1;
-	}
-  }
+}
 
-  .react-responsive-modal-overlay,
+.circle-4 {
+	animation-delay: 0;
+}
+
+.circle-3 {
+	animation-delay: .25s;
+}
+
+.circle-2 {
+	animation-delay: .5s;
+}
+
+.circle-1 {
+	animation-delay: .75s;
+}
+
+
+@keyframes circles-fade {
+	0% {
+		transform: scale(.7);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.react-responsive-modal-overlay,
 .react-responsive-modal-container,
 .react-responsive-modal-modal {
-  animation-fill-mode: forwards !important;
+	animation-fill-mode: forwards !important;
 }
