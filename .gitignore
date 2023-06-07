@@ -4,3 +4,4 @@ pgdata/
 .env
 .m2
 target/
+node_modules/
