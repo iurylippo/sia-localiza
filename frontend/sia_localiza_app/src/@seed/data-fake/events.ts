@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto'
+import { v4 as uuid } from 'uuid'
 
 export const eventsFake = [
   {
-    id: randomUUID(),
+    id: uuid(),
     name: 'Feira de ciências',
     description: 'Desc',
     created_at: new Date(),

@@ -1,19 +1,19 @@
-import { randomUUID } from 'crypto'
+import { v4 as uuid } from 'uuid'
 import { professorsFake } from './professors'
 import { subjectsFake } from './subjects'
 
 export const campusFloorFake = [
   {
-    id: randomUUID(),
+    id: uuid(),
     class: 'a109',
     day: 'segunda-feira',
     day_number: 1,
     day_period: 'manhã',
     obs: 'Obs',
-    event_id: randomUUID(),
+    event_id: uuid(),
     guests: [],
-    subject_id: randomUUID(),
-    professor_id: randomUUID(),
+    subject_id: uuid(),
+    professor_id: uuid(),
     professor: {
       ...professorsFake[0],
     },
@@ -24,16 +24,16 @@ export const campusFloorFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     class: 'a29',
     day: 'segunda-feira',
     day_number: 1,
     day_period: 'manhã',
     obs: 'Obs',
-    event_id: randomUUID(),
+    event_id: uuid(),
     guests: [],
-    subject_id: randomUUID(),
-    professor_id: randomUUID(),
+    subject_id: uuid(),
+    professor_id: uuid(),
     professor: {
       ...professorsFake[1],
     },
@@ -44,16 +44,16 @@ export const campusFloorFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     class: 'l3',
     day: 'segunda-feira',
     day_number: 1,
     day_period: 'manhã',
     obs: 'Obs',
-    event_id: randomUUID(),
+    event_id: uuid(),
     guests: [],
-    subject_id: randomUUID(),
-    professor_id: randomUUID(),
+    subject_id: uuid(),
+    professor_id: uuid(),
     professor: {
       ...professorsFake[2],
     },

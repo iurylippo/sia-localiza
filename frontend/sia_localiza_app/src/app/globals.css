@@ -4,82 +4,166 @@
 
 @layer base {
 	:root {
-	  --background: #f0f2f5;
-	  --title: #44546A;
-  
-	  --color-primary-200: #0fe3f7;
-	  --color-primary-300: #1fdaeb;
-	  --color-primary-400: #21d7e7;
-	  --color-primary-500: #24BBCA;
-	  --color-primary-600: #2daab6;
-	  
-	  --color-secondary-200: #eaf6f3;
-	  --color-secondary-300: #d9ece7;
-	  --color-secondary-400: #d0e9e3;
-	  --color-secondary-500: #BFE0D8;
-	  --color-secondary-600: #b4d0c9;
-  
-	  --color-danger: #ff3131f2;
-	  --text-primary: #0E3469;
+		--background: #f0f2f5;
+		--title: #44546A;
+
+		--color-primary-200: #0fe3f7;
+		--color-primary-300: #1fdaeb;
+		--color-primary-400: #21d7e7;
+		--color-primary-500: #24BBCA;
+		--color-primary-600: #2daab6;
+
+		--color-secondary-200: #eaf6f3;
+		--color-secondary-300: #d9ece7;
+		--color-secondary-400: #d0e9e3;
+		--color-secondary-500: #BFE0D8;
+		--color-secondary-600: #b4d0c9;
+
+		--color-danger: #ff3131f2;
+		--color-alert: #e6b30e;
+		--color-info: #69cddf;
+		--text-primary: #0E3469;
+
+
+		--background: 0 0% 100%;
+		--foreground: 222.2 47.4% 11.2%;
+
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 47.4% 11.2%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 47.4% 11.2%;
+
+		--border: 214.3 31.8% 91.4%;
+		--input: 214.3 31.8% 91.4%;
+
+		--primary: 222.2 47.4% 11.2%;
+		--primary-foreground: 210 40% 98%;
+
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+
+		--destructive: 0 100% 50%;
+		--destructive-foreground: 210 40% 98%;
+
+		--ring: 215 20.2% 65.1%;
+
+		--radius: 0.5rem;
 	}
-  
+
+	.dark {
+		--background: 224 71% 4%;
+		--foreground: 213 31% 91%;
+
+		--muted: 223 47% 11%;
+		--muted-foreground: 215.4 16.3% 56.9%;
+
+		--popover: 224 71% 4%;
+		--popover-foreground: 215 20.2% 65.1%;
+
+		--card: 224 71% 4%;
+		--card-foreground: 213 31% 91%;
+
+		--border: 216 34% 17%;
+		--input: 216 34% 17%;
+
+		--primary: 210 40% 98%;
+		--primary-foreground: 222.2 47.4% 1.2%;
+
+		--secondary: 222.2 47.4% 11.2%;
+		--secondary-foreground: 210 40% 98%;
+
+		--accent: 216 34% 17%;
+		--accent-foreground: 210 40% 98%;
+
+		--destructive: 0 63% 31%;
+		--destructive-foreground: 210 40% 98%;
+
+		--ring: 216 34% 17%;
+
+		--radius: 0.5rem;
+	}
+
 	@media (max-width: 1024px) {
-	  html {
-		font-size: 93.75%;
-	  }
+		html {
+			font-size: 93.75%;
+		}
 	}
-  
+
 	@media (max-width: 768px) {
-	  html {
-		font-size: 87.5%;
-	  }
+		html {
+			font-size: 87.5%;
+		}
 	}
-  
+
 	body {
-	  -webkit-font-feature-settings: 'lnum';
-	  -moz-font-feature-settings: 'lnum';
-	  font-feature-settings: 'lnum';
-	  background: var(--background);
+		-webkit-font-feature-settings: 'lnum';
+		-moz-font-feature-settings: 'lnum';
+		font-feature-settings: 'lnum';
+		background: var(--background);
 	}
-  
+
 	::-webkit-scrollbar-track {
-	  background-color: #e4e4e4;
+		background-color: #e4e4e4;
 	}
-  
+
 	::-webkit-scrollbar {
-	  width: 15px;
-	  height: 20px;
+		width: 15px;
+		height: 20px;
 	}
-	
+
 	::-webkit-scrollbar-thumb {
 		border: 5px solid transparent;
 		background-color: var(--color-primary-500);
 		background-clip: content-box;
 	}
-  
+
 	a {
-	  color: inherit;
-	  text-decoration: none;
+		color: inherit;
+		text-decoration: none;
 	}
-  
+
 	button {
-	  cursor: pointer;
+		cursor: pointer;
 	}
-  
+
 	input:focus {
-	  box-shadow:0, 0, 0;
+		box-shadow: 0, 0, 0;
 	}
-  
-	h1, h2, h3, h4, h5, h6, strong {
-	  font-weight: 700;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	strong {
+		font-weight: 700;
 	}
-  
+
 	[disabled] {
-	  opacity: 0.6;
-	  cursor: not-allowed;
+		opacity: 0.6;
+		cursor: not-allowed;
 	}
-  }
-  
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+		font-feature-settings: "rlig" 1, "calt" 1;
+	}
+}
+
 
 html,
 body,
@@ -164,9 +248,7 @@ audio,
 video {
 	margin: 0;
 	padding: 0;
-	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 
@@ -205,11 +287,6 @@ q:before,
 q:after {
 	content: '';
 	content: none;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
 }
 
 g>rect:hover {

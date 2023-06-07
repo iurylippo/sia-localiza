@@ -56,7 +56,7 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
         </ul>
       </nav>
       {/* account  */}
-      <div className="p-4 border-t border-t-indigo-800">
+      <div className="p-4 border-t border-t-secondary-500">
         <div className="flex items-center gap-4">
           <Image
             src={

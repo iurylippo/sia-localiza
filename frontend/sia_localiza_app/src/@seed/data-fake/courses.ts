@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto'
+import { v4 as uuid } from 'uuid'
 
 export const coursesFake = [
   {
-    id: randomUUID(),
+    id: uuid(),
     code: '0001',
     name: 'Sistema da informação',
     description: 'Desc',
@@ -10,7 +10,7 @@ export const coursesFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     code: '0002',
     name: 'Administração',
     description: 'Desc',
@@ -18,7 +18,7 @@ export const coursesFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     code: '0003',
     name: 'Engenharia de Software',
     description: 'Desc',
@@ -26,7 +26,7 @@ export const coursesFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     code: '0004',
     name: 'Ciências da Computação',
     description: 'Desc',
@@ -34,7 +34,7 @@ export const coursesFake = [
     updated_at: new Date(),
   },
   {
-    id: randomUUID(),
+    id: uuid(),
     code: '0005',
     name: 'Línguas',
     description: 'Desc',
