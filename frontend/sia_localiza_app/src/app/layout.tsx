@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import 'react-responsive-modal/styles.css'
+import 'kalend/dist/styles/index.css'
 import Layout from '@/components/layout/layout'
 const inter = Inter({ subsets: ['latin'] })
 

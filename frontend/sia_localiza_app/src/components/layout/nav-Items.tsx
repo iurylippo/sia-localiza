@@ -15,6 +15,11 @@ export const defaultNavItems: NavItem[] = [
     icon: <MapIcon className="w-6 h-6" />,
   },
   {
+    label: 'Eventos',
+    href: '/events',
+    icon: <BookOpenIcon className="w-6 h-6" />,
+  },
+  {
     label: 'Cursos',
     href: '/courses',
     icon: <BookOpenIcon className="w-6 h-6" />,
