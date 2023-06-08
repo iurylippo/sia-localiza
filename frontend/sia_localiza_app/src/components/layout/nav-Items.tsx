@@ -5,6 +5,7 @@ import {
   UsersIcon,
   PencilSquareIcon,
   BookOpenIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline'
 import { NavItem } from './sidebar'
 
@@ -17,7 +18,7 @@ export const defaultNavItems: NavItem[] = [
   {
     label: 'Eventos',
     href: '/events',
-    icon: <BookOpenIcon className="w-6 h-6" />,
+    icon: <CalendarDaysIcon className="w-6 h-6" />,
   },
   {
     label: 'Cursos',

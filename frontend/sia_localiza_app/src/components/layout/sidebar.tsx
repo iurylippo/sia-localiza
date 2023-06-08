@@ -2,7 +2,6 @@
 import React, { useRef } from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
-import Image from 'next/image'
 import { defaultNavItems } from './nav-Items'
 import { useOnClickOutside } from 'usehooks-ts'
 // define a NavItem prop
@@ -58,19 +57,17 @@ const Sidebar = ({ open, navItems = defaultNavItems, setOpen }: Props) => {
       {/* account  */}
       <div className="p-4 border-t border-t-secondary-500">
         <div className="flex items-center gap-4">
-          <Image
-            src={
-              'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-            }
+          <img
+            src={'https://www.w3schools.com/howto/img_avatar.png'}
             height={36}
             width={36}
             alt="profile image"
             className="rounded-full"
           />
           <div className="flex flex-col ">
-            <span className="my-0 text-indigo-50">Tom Cook</span>
-            <Link href="/" className="text-sm text-indigo-200">
-              View Profile
+            <span className="my-0 text-indigo-50">Usuario Test</span>
+            <Link href="#" className="text-sm font-bold text-title">
+              Ver perfil
             </Link>
           </div>
         </div>
