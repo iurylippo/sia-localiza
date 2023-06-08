@@ -5,11 +5,13 @@ import Kalend, { CalendarView, KalendProps, OnEventDragFinish } from 'kalend'
 import { generateDemoEvents } from './helpers'
 import { NewEventClickData } from 'kalend/common/interface'
 import { EventModal } from '../event-modal'
+import { Event } from '@/models/events'
 
 const CalendComponent = (props: KalendProps) => {
   const [openCreateEventModal, setOpenCreateEventModal] = useState(false)
   const [demoEvents, setDemoEvents] = useState([])
-  const [newEventData, setNewEventData] = useState<NewEventClickData>()
+  const [eventData, setEventData] = useState<Event>()
+  const [type, setType] = useState<'create' | 'update'>('create')
 
   // Create and load demo events
   useEffect(() => {
@@ -18,17 +20,30 @@ const CalendComponent = (props: KalendProps) => {
 
   const handleCreateEventModalClose = () => setOpenCreateEventModal(false)
 
-  const onNewEventClick = (data: NewEventClickData) => {
-    setNewEventData(data)
-    console.log(data)
+  const onNewEventClick = ({ day, endAt, startAt }: NewEventClickData) => {
+    setType('create')
+    setEventData({
+      day,
+      summary: '',
+      color: '',
+      allDay: false,
+      professor_id: '',
+      subject_id: '',
+      endAt: endAt ?? '',
+      startAt: startAt ?? '',
+    })
+    setOpenCreateEventModal(true)
   }
 
-  // Callback for event click
-  const onEventClick = (data: KalendProps) => {
+  const onEventClick = (data: Event) => {
+    setType('update')
+    setEventData(data)
+    setOpenCreateEventModal(true)
     const msg = `Click on event action\n\n Callback data:\n\n${JSON.stringify(
       data,
     )}`
     console.log(msg)
+    console.log(data)
   }
 
   // Callback after dragging is finished
@@ -40,19 +55,13 @@ const CalendComponent = (props: KalendProps) => {
     setDemoEvents(data)
   }
 
-  useEffect(() => {
-    if (newEventData) {
-      setOpenCreateEventModal(true)
-    }
-  }, [newEventData])
-
   return (
     <>
       <EventModal
         isModalOpen={openCreateEventModal}
-        onModalClose={() => handleCreateEventModalClose}
-        type="create"
-        newEventData={newEventData}
+        onModalClose={() => handleCreateEventModalClose()}
+        type={type}
+        eventData={eventData}
       />
 
       <Kalend
@@ -61,7 +70,7 @@ const CalendComponent = (props: KalendProps) => {
         onNewEventClick={onNewEventClick}
         initialView={CalendarView.WEEK}
         disabledViews={[]}
-        onEventClick={onEventClick}
+        onEventClick={(data: any) => onEventClick(data)}
         events={demoEvents}
         initialDate={new Date().toISOString()}
         hourHeight={60}
@@ -73,13 +82,13 @@ const CalendComponent = (props: KalendProps) => {
         //   allDay: false,
         //   color: 'pink',
         // }}
+        disabledDragging={true}
         onEventDragFinish={onEventDragFinish}
         onStateChange={props.onStateChange}
         selectedView={props.selectedView}
         showTimeLine={true}
         autoScroll={true}
         language="ptBR"
-        // disabledDragging={true}
         colors={{
           light: {
             primaryColor: 'blue',

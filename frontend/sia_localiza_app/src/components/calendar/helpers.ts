@@ -1,6 +1,9 @@
 import { DateTime } from 'luxon'
 import { faker } from '@faker-js/faker'
 import { v4 } from 'uuid'
+import { professorsFake } from '@/@seed/data-fake/professors'
+import { subjectsFake } from '@/@seed/data-fake/subjects'
+import { Event } from '@/models/events'
 
 const colors: string[] = [
   'indigo',
@@ -45,12 +48,15 @@ export const generateDemoEvents = (
     })
     const endDate: DateTime = startDate.plus({ minute: minuteDuration })
 
-    const event: any = {
+    const event: Event = {
       id: v4(),
+      day: new Date(dateStart),
+      professor_id: professorsFake[faker.number.int({ min: 0, max: 3 })].id,
+      subject_id: subjectsFake[faker.number.int({ min: 0, max: 3 })].id,
       startAt: startDate.toUTC().toString(),
       endAt: endDate.toUTC().toString(),
-      summary: faker.commerce.department(),
       color: colors[Math.floor(Math.random() * colors.length - 1) + 1],
+      summary: faker.commerce.department(),
       allDay: endDate.day !== startDate.day,
       // style: {
       //   textDecoration: 'line-through',
