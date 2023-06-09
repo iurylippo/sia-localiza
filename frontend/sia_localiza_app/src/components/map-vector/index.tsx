@@ -2,9 +2,18 @@
 import { useEffect, useState } from 'react'
 import { ClassModal } from '../class-modal'
 import MapClassesPath from './paths'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../layout/select'
+import { classesNames } from '@/common/constants'
+import './styles.css'
 
 export default function MapVector() {
-  const [currentClass, setCurrentClass] = useState('a103')
+  const [currentClass, setCurrentClass] = useState('a14')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   function handleClassClick(className: string) {
@@ -18,7 +27,23 @@ export default function MapVector() {
 
   return (
     <>
-      <div>Mapa Controlador</div>
+      <div className="w-32 mb-4">
+        <Select
+          onValueChange={(c) => setCurrentClass(c)}
+          defaultValue={currentClass}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Selecionar uma sala..." />
+          </SelectTrigger>
+          <SelectContent>
+            {classesNames.map((p) => (
+              <SelectItem key={p} value={p}>
+                {p}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div id="map-container">
         <ClassModal
           title={`Classe: ${currentClass}`}
@@ -2051,6 +2076,7 @@ export default function MapVector() {
                   fill="#DC1313"
                 />
                 <rect
+                  className={`${currentClass === 'a14' ? 'blick' : ''}`}
                   id="class"
                   x="0.401185"
                   y="0.584237"
@@ -2074,6 +2100,7 @@ export default function MapVector() {
                   fill="#DC1313"
                 />
                 <rect
+                  className={`${currentClass === 'a15' ? 'blick' : ''}`}
                   id="class_2"
                   x="0.40106"
                   y="0.584325"
@@ -3202,6 +3229,9 @@ export default function MapVector() {
                   fill="#DC1313"
                 />
                 <rect
+                  className={`${
+                    currentClass === 'laboratorios' ? 'blick' : ''
+                  }`}
                   id="class_51"
                   x="332.874"
                   y="561.592"
@@ -3780,7 +3810,7 @@ export default function MapVector() {
                 fill="#AEAEAE"
               />
             </g>
-            <MapClassesPath paths={{ biblioteca: { show: true } } as any} />
+            <MapClassesPath paths={{ [currentClass]: { show: true } } as any} />
             <g id="details">
               <path
                 id="Rectangle 5"

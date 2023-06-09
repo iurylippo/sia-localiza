@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-type Classes =
+export type Classes =
   | 'laboratorios'
   | 'poloead'
   | 'coord-cursos-e-direcao'

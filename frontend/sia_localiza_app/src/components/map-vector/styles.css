@@ -1,0 +1,20 @@
+@keyframes blink {
+    0% {
+        fill: var(--color-primary-500);
+        box-shadow: 0 0 5px var(--color-primary-500);
+    }
+
+    50% {
+        fill: transparent;
+        box-shadow: none;
+    }
+
+    100% {
+        fill: var(--color-primary-500);
+        box-shadow: 0 0 5px var(--color-primary-500);
+    }
+}
+
+.blick {
+    animation: blink 1s infinite;
+}
