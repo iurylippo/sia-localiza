@@ -1,5 +1,7 @@
 package com.sia.localiza.api.common.exceptions;
 
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,4 +15,6 @@ public class ApiError {
     private String request;
 
     private String method;
+
+    private Map<String, String> errors;
 }

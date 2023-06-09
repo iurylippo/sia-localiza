@@ -1,9 +1,13 @@
 package com.sia.localiza.api.common.exceptions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -50,6 +54,35 @@ public class GlobalExceptionHandler {
                 .request(request.getRequestURI())
                 .method(request.getMethod())
                 .build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<ApiError> invalidJsonArgument(
+        MethodArgumentNotValidException ex, 
+            HttpServletRequest request){
+        
+       log.error("schema validation exception : "+  
+                  ex.getLocalizedMessage()+
+                 " for "+ 
+                  request.getRequestURI() );
+
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+
+            errors.put(fieldName, errorMessage);
+        }));
+       
+        return new ResponseEntity<>(
+            ApiError.builder()
+                .message("Schema validation error!")
+                .status_code(HttpStatus.NOT_FOUND.value())
+                .request(request.getRequestURI())
+                .method(request.getMethod())
+                .errors(errors)
+                .build(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler({Exception.class})
