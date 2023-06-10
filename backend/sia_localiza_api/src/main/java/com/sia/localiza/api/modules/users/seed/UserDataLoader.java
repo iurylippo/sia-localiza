@@ -32,8 +32,9 @@ public class UserDataLoader implements CommandLineRunner {
 	}
 
 	private void loadUserData() {
-        System.out.println("##### Seed usuarios #####");
+        
 		if (userRepository.count() == 0) {
+			System.out.println("##### Seed usuarios #####");
 			var user1 = User.builder()
                 .name("John")
                 .email("jhon@gmail.com")
@@ -49,8 +50,9 @@ public class UserDataLoader implements CommandLineRunner {
 
 			userRepository.save(user1);
 			userRepository.save(user2);
+
+			System.out.println("usuarios cadastrados: " + userRepository.count());
+        	System.out.println("#########################");
 		}
-		System.out.println("usuarios cadastrados: " + userRepository.count());
-        System.out.println("#########################");
 	}
 }

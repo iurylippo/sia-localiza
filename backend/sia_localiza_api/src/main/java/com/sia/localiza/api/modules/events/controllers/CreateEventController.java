@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @Hidden
-@RequestMapping("/api/events")
+@RequestMapping("/api/v1/events")
 public class CreateEventController {
 
   @Autowired

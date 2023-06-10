@@ -16,12 +16,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Role {
+    @JsonProperty("USER")
     USER(Collections.emptySet()),
+    @JsonProperty("ADMIN")
     ADMIN(
         Set.of(
                 ADMIN_READ,
@@ -34,6 +38,7 @@ public enum Role {
                 MANAGER_CREATE
         )
     ),
+    @JsonProperty("MANAGER")
     MANAGER(
         Set.of(
                 MANAGER_READ,

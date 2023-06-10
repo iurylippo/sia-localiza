@@ -6,7 +6,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sia.localiza.api.modules.auth.entities.Token;
@@ -19,12 +20,15 @@ import com.sia.localiza.api.modules.auth.responses.AuthenticationResponse;
 import com.sia.localiza.api.modules.users.entities.User;
 import com.sia.localiza.api.modules.users.repositories.UserRepository;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
+@RestController
+@Hidden
 public class AuthenticationService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
@@ -32,7 +36,8 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(@Valid  @RequestBody RegisterRequest request) {
+        request.getRole();
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())

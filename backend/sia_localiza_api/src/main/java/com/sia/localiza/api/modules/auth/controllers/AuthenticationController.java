@@ -16,6 +16,7 @@ import com.sia.localiza.api.modules.auth.services.AuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,13 +27,14 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
-      @RequestBody RegisterRequest request
+    @Valid @RequestBody RegisterRequest request
   ) {
     return ResponseEntity.ok(service.register(request));
   }
+
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
-      @RequestBody AuthenticationRequest request
+    @RequestBody AuthenticationRequest request
   ) throws UnauthorizedException {
     return ResponseEntity.ok(service.authenticate(request));
   }

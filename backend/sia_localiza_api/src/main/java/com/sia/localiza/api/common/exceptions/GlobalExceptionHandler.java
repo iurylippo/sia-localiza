@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,196 +25,221 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler implements ErrorController {
 
-    @ExceptionHandler({ ValidationException.class })
-    public ResponseEntity<ApiError> validationException(
-            ValidationException ex,
-            HttpServletRequest request) {
-        log.error("validation exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+        @ExceptionHandler({ ValidationException.class })
+        public ResponseEntity<ApiError> validationException(
+                        ValidationException ex,
+                        HttpServletRequest request) {
+                log.error("validation exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Request is not valid: " + ex.getLocalizedMessage())
-                        .status_code(HttpStatus.BAD_REQUEST.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.BAD_REQUEST);
-    }
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Request is not valid: " + ex.getLocalizedMessage())
+                                                .status_code(HttpStatus.BAD_REQUEST.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.BAD_REQUEST);
+        }
 
-    @ExceptionHandler({ UnauthorizedException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-            UnauthorizedException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler({ UnauthorizedException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        UnauthorizedException ex,
+                        HttpServletRequest request) {
 
-        log.error("Unauthorized exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+                log.error("Unauthorized exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Unauthorized!")
-                        .status_code(HttpStatus.UNAUTHORIZED.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.UNAUTHORIZED);
-    }
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Unauthorized!")
+                                                .status_code(HttpStatus.UNAUTHORIZED.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.UNAUTHORIZED);
+        }
 
-    @ExceptionHandler({ ExpiredJwtException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-        ExpiredJwtException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler({ ExpiredJwtException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        ExpiredJwtException ex,
+                        HttpServletRequest request) {
 
-        log.error("expired jwt exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+                log.error("expired jwt exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Token Expired!")
-                        .status_code(HttpStatus.UNAUTHORIZED.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.UNAUTHORIZED);
-    }
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Token Expired!")
+                                                .status_code(HttpStatus.UNAUTHORIZED.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.UNAUTHORIZED);
+        }
 
-    @ExceptionHandler({ UnsupportedJwtException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-        UnsupportedJwtException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler({ UnsupportedJwtException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        UnsupportedJwtException ex,
+                        HttpServletRequest request) {
 
-        log.error("unsupported jwt exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+                log.error("unsupported jwt exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Token Unsupported!")
-                        .status_code(HttpStatus.UNAUTHORIZED.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.UNAUTHORIZED);
-    }
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Token Unsupported!")
+                                                .status_code(HttpStatus.UNAUTHORIZED.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.UNAUTHORIZED);
+        }
 
-    @ExceptionHandler({ MalformedJwtException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-        MalformedJwtException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler({ MalformedJwtException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        MalformedJwtException ex,
+                        HttpServletRequest request) {
 
-        log.error("Malformed jwt exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+                log.error("Malformed jwt exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Token Malformed!")
-                        .status_code(HttpStatus.UNAUTHORIZED.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.UNAUTHORIZED);
-    }
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Token Malformed!")
+                                                .status_code(HttpStatus.UNAUTHORIZED.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.UNAUTHORIZED);
+        }
 
-    @ExceptionHandler({ SignatureException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-        SignatureException ex,
-            HttpServletRequest request) {
+        @ExceptionHandler({ SignatureException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        SignatureException ex,
+                        HttpServletRequest request) {
 
-        log.error("Signature jwt exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+                log.error("Signature jwt exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Invalid Token Signature!")
-                        .status_code(HttpStatus.UNAUTHORIZED.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.UNAUTHORIZED);
-    }
-    
-    
-    @ExceptionHandler({ NoSuchElementException.class })
-    public ResponseEntity<ApiError> noSuchElementException(
-            NoSuchElementException ex,
-            HttpServletRequest request) {
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Invalid Token Signature!")
+                                                .status_code(HttpStatus.UNAUTHORIZED.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.UNAUTHORIZED);
+        }
 
-        log.error("validation exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+        @ExceptionHandler({ NoSuchElementException.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        NoSuchElementException ex,
+                        HttpServletRequest request) {
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Entity not found!")
-                        .status_code(HttpStatus.NOT_FOUND.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.NOT_FOUND);
-    }
+                log.error("validation exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-    @ExceptionHandler({ MethodArgumentNotValidException.class })
-    public ResponseEntity<ApiError> invalidJsonArgument(
-            MethodArgumentNotValidException ex,
-            HttpServletRequest request) {
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Entity not found!")
+                                                .status_code(HttpStatus.NOT_FOUND.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.NOT_FOUND);
+        }
 
-        log.error("schema validation exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+        @ExceptionHandler({ MethodArgumentNotValidException.class })
+        public ResponseEntity<ApiError> invalidJsonArgument(
+                        MethodArgumentNotValidException ex,
+                        HttpServletRequest request) {
 
-        Map<String, String> errors = new HashMap<>();
+                log.error("schema validation exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
 
-        ex.getBindingResult().getAllErrors().forEach((error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
+                Map<String, String> errors = new HashMap<>();
 
-            errors.put(fieldName, errorMessage);
-        }));
+                ex.getBindingResult().getAllErrors().forEach((error -> {
+                        String fieldName = ((FieldError) error).getField();
+                        String errorMessage = error.getDefaultMessage();
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Schema validation error!")
-                        .status_code(HttpStatus.NOT_FOUND.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .errors(errors)
-                        .build(),
-                HttpStatus.UNPROCESSABLE_ENTITY);
-    }
+                        errors.put(fieldName, errorMessage);
+                }));
 
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<ApiError> genericException(
-            Exception ex,
-            HttpServletRequest request) {
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Schema validation error!")
+                                                .status_code(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .errors(errors)
+                                                .build(),
+                                HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
-        log.error("exception : " +
-                ex.getLocalizedMessage() +
-                " for " +
-                request.getRequestURI());
+        @ExceptionHandler({ HttpMessageNotReadableException.class })
+        public ResponseEntity<ApiError> invalidJsonArgument(
+                        HttpMessageNotReadableException ex,
+                        HttpServletRequest request) {
 
-        return new ResponseEntity<>(
-                ApiError.builder()
-                        .message("Could not process request: " + ex.getLocalizedMessage())
-                        .status_code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .request(request.getRequestURI())
-                        .method(request.getMethod())
-                        .build(),
-                HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+                log.error("schema validation exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
+
+                Map<String, String> errors = new HashMap<>();
+
+                errors.put("enum", ex.getLocalizedMessage());
+
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Schema validation error!")
+                                                .status_code(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .errors(errors)
+                                                .build(),
+                                HttpStatus.UNPROCESSABLE_ENTITY);
+
+        }
+
+        @ExceptionHandler({ Throwable.class })
+        public ResponseEntity<ApiError> genericException(
+                        Throwable ex,
+                        HttpServletRequest request) {
+
+                log.error("exception : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
+
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Could not process request: " + ex.getLocalizedMessage())
+                                                .status_code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
 }
