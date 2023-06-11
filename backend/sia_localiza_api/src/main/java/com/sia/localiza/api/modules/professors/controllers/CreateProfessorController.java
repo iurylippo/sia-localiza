@@ -31,7 +31,7 @@ public class CreateProfessorController {
     Professor professorAlredyExists = this.findProfessorByCodeRepository.execute(data.getCode());
 
     if(professorAlredyExists != null) {
-       throw new BadRequestException("Professor alredy exists!");
+       throw new BadRequestException("Professor already exists!");
     }
     Professor professor = this.createProfessorRepository.execute(data);
     return new ResponseEntity<>(professor, HttpStatus.CREATED);

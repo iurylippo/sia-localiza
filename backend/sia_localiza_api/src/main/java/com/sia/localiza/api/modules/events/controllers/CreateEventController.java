@@ -31,7 +31,7 @@ public class CreateEventController {
     Event eventAlredyExists = this.findEventBySummaryRepository.execute(data.getSummary());
 
     if(eventAlredyExists != null) {
-       throw new BadRequestException("Event alredy exists!");
+       throw new BadRequestException("Event already exists!");
     }
     Event event = this.createEventRepository.execute(data);
     return new ResponseEntity<>(event, HttpStatus.CREATED);
