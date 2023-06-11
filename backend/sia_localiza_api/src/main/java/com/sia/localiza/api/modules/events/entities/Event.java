@@ -2,9 +2,14 @@ package com.sia.localiza.api.modules.events.entities;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.UuidGenerator;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sia.localiza.api.common.abstractions.DateAudit;
+import com.sia.localiza.api.common.annotations.validation.constraints.DayPeriodType;
+import com.sia.localiza.api.common.annotations.validation.constraints.DayWeekType;
 import com.sia.localiza.api.common.enums.EDayPeriod;
 import com.sia.localiza.api.common.enums.EWeekDays;
 
@@ -28,6 +33,7 @@ public class Event extends DateAudit {
     private UUID id;
 
     @Column(name = "summary", nullable = false)
+    @NotNull(message = "summary required.")
     @NotBlank(message = "summary required.")
     private String summary;
 
@@ -37,17 +43,29 @@ public class Event extends DateAudit {
     @Column(name = "day_week", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull(message = "day_week required.")
-    private EWeekDays dayWeek = EWeekDays.MONDAY;
+    @DayWeekType(anyOf =  {EWeekDays.segunda, EWeekDays.terca, EWeekDays.quarta, EWeekDays.quinta, EWeekDays.sexta, EWeekDays.sabado, EWeekDays.domingo})
+    @JsonProperty("day_week")
+    @ColumnTransformer(write="?::\"DayWeek\"")
+    private EWeekDays dayWeek;
 
     @Column(name = "day_period", nullable = false)
     @Enumerated(EnumType.STRING)
+    @DayPeriodType(anyOf =  {EDayPeriod.manha, EDayPeriod.tarde, EDayPeriod.noite})
     @NotNull(message = "day_period required.")
-    private EDayPeriod dayPeriod = EDayPeriod.MANHA;
+    @JsonProperty("day_period")
+    @ColumnTransformer(write="?::\"DayPeriod\"")
+    private EDayPeriod dayPeriod;
 
     @Column(name = "start_at", nullable = false, columnDefinition = "TIME")
+    @JsonProperty("start_at")
+    @NotNull(message = "start_at required.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private java.sql.Time startAt;
 
     @Column(name = "end_at", nullable = false, columnDefinition = "TIME")
+    @JsonProperty("end_at")
+    @NotNull(message = "end_at required.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private java.sql.Time endAt;
 
     public Event() {
@@ -87,7 +105,7 @@ public class Event extends DateAudit {
         this.description = description;
     }
 
-    public EWeekDays getDayWeek() {
+    @Enumerated(EnumType.STRING) public EWeekDays getDayWeek() {
         return dayWeek;
     }
 
@@ -95,7 +113,7 @@ public class Event extends DateAudit {
         this.dayWeek = dayWeek;
     }
 
-    public EDayPeriod getDayPeriod() {
+    @Enumerated(EnumType.STRING) public EDayPeriod getDayPeriod() {
         return dayPeriod;
     }
 
