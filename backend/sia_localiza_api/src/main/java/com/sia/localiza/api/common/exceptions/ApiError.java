@@ -16,5 +16,7 @@ public class ApiError {
 
     private String method;
 
+    private String exception;
+
     private Map<String, String> errors;
 }

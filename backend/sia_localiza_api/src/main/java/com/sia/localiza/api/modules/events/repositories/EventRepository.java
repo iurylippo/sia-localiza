@@ -9,5 +9,5 @@ import com.sia.localiza.api.modules.events.entities.Event;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, UUID> {
-   
+   Event findBySummary(String summary);
 }

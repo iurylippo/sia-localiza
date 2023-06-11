@@ -7,11 +7,11 @@ import com.sia.localiza.api.modules.events.entities.Event;
 
 
 @Component
-public class CreateEventRepository {
+public class FindEventBySummaryRepository {
     @Autowired
     private EventRepository eventRepository;
     
-    public Event execute(Event data) {
-        return this.eventRepository.save(data);
+    public Event execute(String summary) {
+        return this.eventRepository.findBySummary(summary);
     }
 }

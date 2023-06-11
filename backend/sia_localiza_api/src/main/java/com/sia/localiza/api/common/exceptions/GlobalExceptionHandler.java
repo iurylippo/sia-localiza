@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import com.sia.localiza.api.modules.auth.exceptions.UnauthorizedException;
 
@@ -19,6 +20,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -146,6 +148,46 @@ public class GlobalExceptionHandler implements ErrorController {
                                 HttpStatus.UNAUTHORIZED);
         }
 
+        @ExceptionHandler({ BadRequestException.class, BadRequest.class })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        Throwable ex,
+                        HttpServletRequest request) {
+
+                log.error("BadRequestException : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
+
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message(ex.getLocalizedMessage())
+                                                .status_code(HttpStatus.BAD_REQUEST.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler({ EntityNotFoundException.class, })
+        public ResponseEntity<ApiError> noSuchElementException(
+                        EntityNotFoundException ex,
+                        HttpServletRequest request) {
+
+                log.error("EntityNotFoundException : " +
+                                ex.getLocalizedMessage() +
+                                " for " +
+                                request.getRequestURI());
+
+                return new ResponseEntity<>(
+                                ApiError.builder()
+                                                .message("Entity not found!")
+                                                .status_code(HttpStatus.NOT_FOUND.value())
+                                                .request(request.getRequestURI())
+                                                .method(request.getMethod())
+                                                .build(),
+                                HttpStatus.NOT_FOUND);
+        }
+
         @ExceptionHandler({ NoSuchElementException.class })
         public ResponseEntity<ApiError> noSuchElementException(
                         NoSuchElementException ex,
@@ -237,6 +279,7 @@ public class GlobalExceptionHandler implements ErrorController {
                                                 .message("Could not process request: " + ex.getLocalizedMessage())
                                                 .status_code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                                                 .request(request.getRequestURI())
+                                                .exception(ex.getClass().getName())
                                                 .method(request.getMethod())
                                                 .build(),
                                 HttpStatus.INTERNAL_SERVER_ERROR);

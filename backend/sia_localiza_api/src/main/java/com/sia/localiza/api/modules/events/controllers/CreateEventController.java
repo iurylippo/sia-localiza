@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sia.localiza.api.common.exceptions.BadRequestException;
 import com.sia.localiza.api.modules.events.entities.Event;
 import com.sia.localiza.api.modules.events.repositories.CreateEventRepository;
+import com.sia.localiza.api.modules.events.repositories.FindEventBySummaryRepository;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
-
 
 @RestController
 @Hidden
@@ -22,15 +23,17 @@ public class CreateEventController {
 
   @Autowired
   private CreateEventRepository createEventRepository;
+  @Autowired
+  private FindEventBySummaryRepository findEventBySummaryRepository;
 
-  
   @PostMapping()
   public ResponseEntity<Event> handle(@Valid @RequestBody Event data) {
-    // try {
-          Event event = this.createEventRepository.execute(data);
-      return new ResponseEntity<>(event, HttpStatus.CREATED);
-    // } catch (Exception e) {
-    //   return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+    Event eventAlredyExists = this.findEventBySummaryRepository.execute(data.getSummary());
+
+    if(eventAlredyExists != null) {
+       throw new BadRequestException("Event alredy exists!");
+    }
+    Event event = this.createEventRepository.execute(data);
+    return new ResponseEntity<>(event, HttpStatus.CREATED);
   }
-} 
+}
