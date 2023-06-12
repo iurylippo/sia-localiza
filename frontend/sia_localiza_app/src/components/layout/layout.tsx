@@ -1,24 +1,16 @@
 'use client'
-import React, { PropsWithChildren, useState } from 'react'
-import Navbar from './navbar'
-import Sidebar from './sidebar'
+import React, { PropsWithChildren } from 'react'
+import { SideBarWrapper } from '../sidebar-wrapper'
+import { LoginLayout } from './login'
 
 const Layout = (props: PropsWithChildren) => {
-  // eslint-disable-next-line no-unused-vars
-  const [showSidebar, setShowSidebar] = useState(false)
-
   return (
-    <div className="grid h-screen overflow-hidden bg-white grid-rows-header">
-      <div className="z-10 bg-white shadow-sm">
-        <Navbar onMenuButtonClick={() => setShowSidebar((prev) => !prev)} />
-      </div>
-
-      <div className="grid md:grid-cols-sidebar ">
-        <div className="shadow-md">
-          <Sidebar open={showSidebar} setOpen={setShowSidebar} />
-        </div>
-        <div className="h-screen p-4 overflow-y-scroll">{props.children}</div>
-      </div>
+    <div>
+      {document.location.pathname === '/login' ? (
+        <LoginLayout />
+      ) : (
+        <SideBarWrapper>{props.children}</SideBarWrapper>
+      )}
     </div>
   )
 }

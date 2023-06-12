@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import dayjs from 'dayjs'
@@ -14,6 +15,8 @@ type DownloadFileFromServerParams = {
   filename: string
   data: any
 }
+
+type ActionTypeMap<T extends string> = { [key in T]: string }
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -89,3 +92,15 @@ export function downloadFileFromServer({
   link.click()
   link.parentNode?.removeChild(link)
 }
+
+export const createActionTypesMap = <T extends string>(
+  prefix: string,
+  types: T[],
+): ActionTypeMap<T> =>
+  types.reduce(
+    (obj, key) => ({
+      ...obj,
+      [key]: `${prefix}${key}` === '/' ? '' : `${prefix}${key}`,
+    }),
+    {} as ActionTypeMap<T>,
+  )
