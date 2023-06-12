@@ -12,6 +12,7 @@ import com.sia.localiza.api.common.exceptions.BadRequestException;
 import com.sia.localiza.api.modules.subjects.entities.Subject;
 import com.sia.localiza.api.modules.subjects.repositories.CreateSubjectRepository;
 import com.sia.localiza.api.modules.subjects.repositories.FindSubjectByCodeRepository;
+import com.sia.localiza.api.modules.subjects.services.EnsureSubjectRelationsExists;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
@@ -25,9 +26,14 @@ public class CreateSubjectController {
   private CreateSubjectRepository createSubjectRepository;
   @Autowired
   private FindSubjectByCodeRepository findSubjectByCodeRepository;
+  @Autowired
+  private EnsureSubjectRelationsExists ensureSubjectRelationsExists;
+  
 
   @PostMapping()
   public ResponseEntity<Subject> handle(@Valid @RequestBody Subject data) {
+    this.ensureSubjectRelationsExists.execute(data);
+    
     Subject subjectAlredyExists = this.findSubjectByCodeRepository.execute(data.getCode());
 
     if(subjectAlredyExists != null) {
