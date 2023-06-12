@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { v4 } from 'uuid'
 import { professorsFake } from '@/@seed/data-fake/professors'
 import { subjectsFake } from '@/@seed/data-fake/subjects'
-import { Event } from '@/models/events'
 
 const colors: string[] = [
   'indigo',
@@ -48,7 +47,7 @@ export const generateDemoEvents = (
     })
     const endDate: DateTime = startDate.plus({ minute: minuteDuration })
 
-    const event: Event = {
+    const event: any = {
       id: v4(),
       day: new Date(dateStart),
       professor_id: professorsFake[faker.number.int({ min: 0, max: 3 })].id,

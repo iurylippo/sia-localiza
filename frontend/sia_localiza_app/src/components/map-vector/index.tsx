@@ -17,10 +17,13 @@ import { MapClasses } from './classes'
 import { MapDefs } from './defs'
 import { MapEntracePoint } from './entrance-point'
 import { MapArea } from './area-path'
+import { CampusEvent } from '@/models/campus-event'
+import { API } from '@/app/services/api/axios'
 
 export default function MapVector() {
   const [currentClass, setCurrentClass] = useState('a14')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [data, setData] = useState<CampusEvent[]>([])
 
   function handleClassClick(className: string) {
     setCurrentClass(className)
@@ -28,8 +31,16 @@ export default function MapVector() {
   }
 
   useEffect(() => {
-    console.log(currentClass)
-  }, [currentClass])
+    console.log(data)
+  }, [data])
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await API.get<CampusEvent[]>('/events/campus')
+      setData(response.data)
+    }
+    loadData()
+  }, [])
 
   return (
     <>
