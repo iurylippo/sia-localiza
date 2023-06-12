@@ -26,7 +26,7 @@ export async function autoUpdateRefreshToken() {
     return
   }
 
-  const result = await API.post('/auth/refresh', {
+  const result = await API.post('/auth/refresh-token', {
     token: currentRefreshToken,
   })
 

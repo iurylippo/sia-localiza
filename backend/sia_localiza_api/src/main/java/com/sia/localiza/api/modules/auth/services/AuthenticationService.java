@@ -17,6 +17,7 @@ import com.sia.localiza.api.modules.auth.repositories.TokenRepository;
 import com.sia.localiza.api.modules.auth.requests.AuthenticationRequest;
 import com.sia.localiza.api.modules.auth.requests.RegisterRequest;
 import com.sia.localiza.api.modules.auth.responses.AuthenticationResponse;
+import com.sia.localiza.api.modules.auth.responses.UserResponse;
 import com.sia.localiza.api.modules.users.entities.User;
 import com.sia.localiza.api.modules.users.repositories.UserRepository;
 
@@ -70,9 +71,15 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+       
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .user(UserResponse.builder()
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .userId(user.getId().toString()).build()
+                    )
                 .build();
     }
 

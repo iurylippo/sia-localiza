@@ -47,6 +47,7 @@ public class SecurityConfiguration {
               )
           .permitAll()
 
+
           // .requestMatchers("/api/v1/events/**").hasAnyRole(ADMIN.name())
           // .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
 
@@ -67,9 +68,12 @@ public class SecurityConfiguration {
 
           .anyRequest()
           .authenticated()
+          .and().cors()
           .and()
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+          .and()
+          .cors()
           .and()
           .authenticationProvider(authenticationProvider)
           .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

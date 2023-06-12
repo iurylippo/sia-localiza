@@ -1,4 +1,5 @@
 import { CONSTANTS } from '@/config/constants'
+import { isExpired } from 'react-jwt'
 
 const { STORE_ACCESSTOKEN_KEY, STORE_REFRESHTOKEN_KEY } = CONSTANTS
 
@@ -29,12 +30,12 @@ export class TokenService {
     localStorage.removeItem(STORE_REFRESHTOKEN_KEY)
   }
 
-  //   static isExpiredToken(): boolean {
-  //     const token = localStorage.getItem(STORE_ACCESSTOKEN_KEY)
+  static isExpiredToken(): boolean {
+    const token = localStorage.getItem(STORE_ACCESSTOKEN_KEY)
 
-  //     if (!token) return true
+    if (!token) return true
 
-  //     const isExpiredStoragedToken = isExpired(token)
-  //     return isExpiredStoragedToken
-  //   }
+    const isExpiredStoragedToken = isExpired(token)
+    return isExpiredStoragedToken
+  }
 }

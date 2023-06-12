@@ -1,5 +1,5 @@
 export const CONSTANTS = {
-  API_BACKEND: process.env.APP_API_URL,
+  API_BACKEND: 'http://127.0.0.1:8000/api/v1',
   ENV: process.env.APP_ENV as
     | 'development'
     | 'staging'
