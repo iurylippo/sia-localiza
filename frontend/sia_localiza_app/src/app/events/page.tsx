@@ -1,28 +1,46 @@
 'use client'
-import dynamic from 'next/dynamic'
-import { ComponentProps } from 'react'
 
-const CalendComponent = dynamic(
-  () => {
-    return import('@/components/calendar')
-  },
-  { ssr: false },
-)
+import { DataTable } from '@/components/data-table'
+import { useEffect, useState } from 'react'
+import { cellActions } from '@/common/table/cell-actions'
+import { API } from '../services/api/axios'
+import { PageControl } from '@/components/page-control/indext'
+import { columns } from './table/columns'
+import { Event } from '@/models/events'
 
-const wrapper: ComponentProps<'div'>['className'] =
-  'flex flex-col w-full h-screen'
+export default function Events() {
+  const [data, setData] = useState<Event[]>([])
 
-const calendarWrapper =
-  'flex w-full h-full sm:max-h-[70%] md:max-h-[80%] max-w-[850px] border mx-auto rounded-md justify-center items-center bg-white flex-col'
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await API.get<Event[]>('/events')
+      setData(response.data)
+    }
+    loadData()
+  }, [])
 
-export default function Events(props?: any) {
+  const handleUpdate = (model: Event) => {
+    console.log('update', model)
+  }
+
+  const handleDelete = (id: string) => {
+    console.log('delete', id)
+  }
+
+  const cols = [
+    ...columns,
+    cellActions<Event>({
+      onClickUpdate: (model) => handleUpdate(model),
+      onClickDelete: (id) => handleDelete(id),
+    }),
+  ]
+
   return (
     <div>
-      <h1>Eventos</h1>
-      <div className={wrapper}>
-        <div className={calendarWrapper}>
-          <CalendComponent isDark={false} />
-        </div>
+      <PageControl title="Eventos" />
+
+      <div className="container py-10 mx-auto">
+        <DataTable columns={cols} data={data} />
       </div>
     </div>
   )

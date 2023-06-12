@@ -1,11 +1,11 @@
 export interface Event {
-  id?: string
-  day: Date | string
-  professor_id: string
-  subject_id: string
-  startAt: string
-  endAt: string
-  color: string
+  id: string
   summary: string
-  allDay: boolean
+  description: string | null
+  created_at: string
+  updated_at: string
+  day_week: string
+  day_period: string
+  start_at: string
+  end_at: string
 }

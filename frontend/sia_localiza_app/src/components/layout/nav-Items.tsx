@@ -16,6 +16,16 @@ export const defaultNavItems: NavItem[] = [
     icon: <MapIcon className="w-6 h-6" />,
   },
   {
+    label: 'Agenda',
+    href: '/schedules',
+    icon: <CalendarDaysIcon className="w-6 h-6" />,
+  },
+  {
+    label: 'Campus eventos',
+    href: '/campus-events',
+    icon: <CalendarDaysIcon className="w-6 h-6" />,
+  },
+  {
     label: 'Eventos',
     href: '/events',
     icon: <CalendarDaysIcon className="w-6 h-6" />,
