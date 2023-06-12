@@ -21,7 +21,7 @@ import jakarta.persistence.EntityNotFoundException;
 @RestController
 @Hidden
 @RequestMapping("/api/v1/subjects/{id}")
-public class DeleteSubjectCotroller {
+public class DeleteSubjectController {
 
   @Autowired
   private FindSubjectByIdRepository findSubjectByIdRepository;

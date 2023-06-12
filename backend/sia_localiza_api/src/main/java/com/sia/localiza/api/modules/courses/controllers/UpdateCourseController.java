@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 @RestController
 @Hidden
 @RequestMapping("/api/v1/courses/{id}")
-public class UpdateCourseCotroller {
+public class UpdateCourseController {
 
   @Autowired
   private FindCourseByIdRepository findCourseByIdRepository;

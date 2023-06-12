@@ -1,4 +1,4 @@
-package com.sia.localiza.api.modules.courses.controllers;
+package com.sia.localiza.api.modules.professors.controllers;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sia.localiza.api.modules.courses.entities.Course;
-import com.sia.localiza.api.modules.courses.repositories.DeleteCourseRepository;
-import com.sia.localiza.api.modules.courses.repositories.FindCourseByIdRepository;
+import com.sia.localiza.api.modules.professors.entities.Professor;
+import com.sia.localiza.api.modules.professors.repositories.DeleteProfessorRepository;
+import com.sia.localiza.api.modules.professors.repositories.FindProfessorByIdRepository;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @Hidden
-@RequestMapping("/api/v1/courses/{id}")
-public class DeleteCourseCotroller {
+@RequestMapping("/api/v1/professors/{id}")
+public class DeleteProfessorController {
 
   @Autowired
-  private FindCourseByIdRepository findCourseByIdRepository;
+  private FindProfessorByIdRepository findProfessorByIdRepository;
   @Autowired
-  private DeleteCourseRepository deleteCourseRepository;
+  private DeleteProfessorRepository deleteProfessorRepository;
 
   @DeleteMapping()
   public ResponseEntity<Void> handle(@PathVariable UUID id) {
-    Optional<Course> courseExists = this.findCourseByIdRepository.execute(id);
-    if(courseExists.isEmpty()) {
+    Optional<Professor> eventExists = this.findProfessorByIdRepository.execute(id);
+    if(eventExists.isEmpty()) {
       throw new EntityNotFoundException();
     }
 
-    this.deleteCourseRepository.execute(id);
+    this.deleteProfessorRepository.execute(id);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

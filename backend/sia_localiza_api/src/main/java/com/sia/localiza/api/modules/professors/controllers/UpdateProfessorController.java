@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 @RestController
 @Hidden
 @RequestMapping("/api/v1/professors/{id}")
-public class UpdateProfessorCotroller {
+public class UpdateProfessorController {
 
   @Autowired
   private FindProfessorByIdRepository findProfessorByIdRepository;
