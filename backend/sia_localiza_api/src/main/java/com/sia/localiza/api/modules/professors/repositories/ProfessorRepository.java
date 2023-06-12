@@ -1,5 +1,6 @@
 package com.sia.localiza.api.modules.professors.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ import com.sia.localiza.api.modules.professors.entities.Professor;
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, UUID> {
    Professor findByCode(String code);
+
+   Optional<Professor> findByCodeAndIdNot(String code, UUID id);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sia.localiza.api.modules.professors.entities.Professor;
 import com.sia.localiza.api.modules.professors.repositories.FindProfessorByIdRepository;
 import com.sia.localiza.api.modules.professors.repositories.UpdateProfessorRepository;
+import com.sia.localiza.api.modules.professors.services.EnsureProfessorCodeIsUnique;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,13 +30,17 @@ public class UpdateProfessorCotroller {
   private FindProfessorByIdRepository findProfessorByIdRepository;
   @Autowired
   private UpdateProfessorRepository updateProfessorRepository;
-
+  @Autowired
+  private EnsureProfessorCodeIsUnique ensureProfessorCodeIsUnique;
+  
   @PutMapping()
   public ResponseEntity<Professor> handle(@PathVariable UUID id, @Valid @RequestBody Professor data) {
     Optional<Professor> professorExists = this.findProfessorByIdRepository.execute(id);
     if(professorExists.isEmpty()) {
       throw new EntityNotFoundException();
     }
+
+    this.ensureProfessorCodeIsUnique.execute(data.getCode(), id);
 
     Professor professor = this.updateProfessorRepository.execute(id, data);
     return new ResponseEntity<>(professor, HttpStatus.OK);
