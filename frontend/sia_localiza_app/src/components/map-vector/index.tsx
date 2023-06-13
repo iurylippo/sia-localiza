@@ -18,7 +18,7 @@ import { MapDefs } from './defs'
 import { MapEntracePoint } from './entrance-point'
 import { MapArea } from './area-path'
 import { CampusEvent } from '@/models/campus-event'
-import { API } from '@/app/services/api/axios'
+import { API } from '@/services/api/axios'
 
 export default function MapVector() {
   const [currentClass, setCurrentClass] = useState('a14')

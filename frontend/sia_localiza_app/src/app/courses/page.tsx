@@ -3,7 +3,7 @@
 import { DataTable } from '@/components/data-table'
 import { useEffect, useState } from 'react'
 import { cellActions } from '@/common/table/cell-actions'
-import { API } from '../services/api/axios'
+import { API } from '../../services/api/axios'
 import { PageControl } from '@/components/page-control/indext'
 import { Course } from '@/models/course'
 import { columns } from './table/columns'

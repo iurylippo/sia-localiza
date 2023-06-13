@@ -22,16 +22,22 @@ export async function autoUpdateRefreshToken() {
   const currentRefreshToken = TokenService.getRefreshToken()
 
   if (!currentRefreshToken) {
-    window.location.href = '/'
+    window.location.href = '/login'
     return
   }
 
-  const result = await API.post('/auth/refresh-token', {
-    token: currentRefreshToken,
-  })
+  const result = await API.post(
+    '/auth/refresh-token',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${currentRefreshToken}`,
+      },
+    },
+  )
 
-  const { token, refresh_token: refreshToken } = result.data
-  TokenService.setAccessToken(token)
+  const { access_token: accessToken, refresh_token: refreshToken } = result.data
+  TokenService.setAccessToken(accessToken)
   TokenService.setRefreshToken(refreshToken)
 }
 
@@ -55,6 +61,7 @@ API.interceptors.response.use(
         !originalConfig._retry &&
         originalConfig.url !== '/auth/refresh-token'
       ) {
+        console.log('tentando refresh!')
         originalConfig._retry = true
 
         try {
@@ -62,7 +69,7 @@ API.interceptors.response.use(
           return API(originalConfig)
         } catch (_error) {
           localStorage.clear()
-          window.location.href = '/'
+          window.location.href = '/login'
           return Promise.reject(_error)
         }
       }

@@ -6,7 +6,7 @@ import { Professor } from '@/models/professors'
 import { useEffect, useState } from 'react'
 import { columns } from './table/columns'
 import { cellActions } from '@/common/table/cell-actions'
-import { API } from '../services/api/axios'
+import { API } from '../../services/api/axios'
 import { PageControl } from '@/components/page-control/indext'
 // import { cellActions } from '@/common/table/cell-actions'
 

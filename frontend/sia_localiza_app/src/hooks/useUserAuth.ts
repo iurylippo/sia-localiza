@@ -1,9 +1,9 @@
 import { useMutation } from 'react-query'
 // import jwtDecode from 'jwt-decode'
 
-import { BASE_API } from '@/app/services/api/axios'
-import { TokenService } from '@/app/services/api/token'
-import { useUserStore } from '@/app/services/store/useUserStore'
+import { BASE_API } from '@/services/api/axios'
+import { TokenService } from '@/services/api/token'
+import { useUserStore } from '@/services/store/useUserStore'
 import {
   UserDataType,
   UserLoginData,
@@ -34,13 +34,20 @@ export function useUserAuth() {
     if (isTokenExpired && !autoRefetch) return false
     if (isTokenExpired && autoRefetch) {
       try {
-        const result = await BASE_API.post('/users/auth/refresh', {
-          token: TokenService.getRefreshToken(),
-        })
+        const result = await BASE_API.post(
+          '/users/auth/refresh_token',
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${TokenService.getRefreshToken()}`,
+            },
+          },
+        )
 
-        const { token, refresh_token: refreshToken } = result.data
+        const { access_token: accessToken, refresh_token: refreshToken } =
+          result.data
 
-        TokenService.setAccessToken(token)
+        TokenService.setAccessToken(accessToken)
         TokenService.setRefreshToken(refreshToken)
         return true
       } catch (error) {
