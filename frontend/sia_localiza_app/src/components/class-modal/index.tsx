@@ -39,6 +39,10 @@ export function ClassModal({
             <span>{data?.subject.name}</span>
           </div>
           <div className="flex gap-2">
+            <span className="font-bold">Curso:</span>
+            <span>{data?.subject.course.name}</span>
+          </div>
+          <div className="flex gap-2">
             <span className="font-bold">Hora/Início:</span>
             <span>{data?.event.start_at}</span>
           </div>
