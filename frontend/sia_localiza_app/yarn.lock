@@ -940,6 +940,13 @@
   dependencies:
     react-query "*"
 
+"@types/react-svg-pan-zoom@^3.3.5":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@types/react-svg-pan-zoom/-/react-svg-pan-zoom-3.3.5.tgz#33a1009dfaaf4897011c6328ec7daa3936628f39"
+  integrity sha512-W8GRFCDy7raSDr5OXGjSyvX5KmdWlIQfv0NLa1jfAYVUO4ClVbgorWeAAom7nY3Pl+4h9blXE1Bnu2CW1iMEvQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@18.2.8":
   version "18.2.8"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.2.8.tgz"
@@ -3355,6 +3362,19 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-svg-pan-zoom@^3.12.1:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/react-svg-pan-zoom/-/react-svg-pan-zoom-3.12.1.tgz#971de6163fbad0d2a98d3ad7eb09bd1941564376"
+  integrity sha512-ug1LHCN5qed56C64xFypr/ClajuMFkig1OKvwJrIgGeSyHOjWM7XGgSgeP3IfHAkNw8QEc6a31ggZRpTijWYRw==
+  dependencies:
+    prop-types "^15.8.1"
+    transformation-matrix "^2.14.0"
+
+react-zoom-pan-pinch@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-3.0.8.tgz#c649d644e8aef239afe678a65fd618e65746ddc9"
+  integrity sha512-z6O5SV5X+XBo/LLO59PgzNE2WT+tp8lw1w3M0y138jCXViwHWKK1MqorICbmSVSOOD5Fa2o6pcg1ppJj9vzqJA==
+
 react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
@@ -3741,6 +3761,11 @@ to-regex-range@^5.0.1:
   integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
+
+transformation-matrix@^2.14.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-2.15.0.tgz#4276ac7e384d9764b044c2d48ced77f8cc1f88c0"
+  integrity sha512-HN3kCvvH4ug3Xm/ycOfCFQOOktg5htxlC4Ih1Z7Wb6BMtQho+q+irOdGo10ARRKpqkRBXgBzQFw/AVmR0oIf0g==
 
 ts-interface-checker@^0.1.9:
   version "0.1.13"

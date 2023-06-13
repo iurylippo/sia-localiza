@@ -17,6 +17,8 @@ import { weekDays, weekPeriods } from '@/common/constants'
 import { SearchButton } from '../buttons/search-button'
 import { Professor } from '@/models/professors'
 import { Subject } from '@/models/subject'
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
+// import { ReactSVGPanZoom } from 'react-svg-pan-zoom'
 
 export default function MapVector() {
   const [professorsOptions, setProfessorsOptions] = useState<ComboBoxOption[]>(
@@ -29,6 +31,8 @@ export default function MapVector() {
   const [selectedDayPeriod, setSelectedDayPeriod] = useState('')
   const [selectedProfessor, setSelectedProfessor] = useState('')
   const [selectedSubject, setSelectedSubject] = useState('')
+  // const [tool, setTool] = useState<any>('auto')
+  // const [toolValue, setToolValue] = useState<any>(null)
 
   function handleClassClick(className: string) {
     setCurrentClass(className)
@@ -119,26 +123,49 @@ export default function MapVector() {
             onModalClose={() => setIsModalOpen(false)}
             campusFloor={null}
           />
-          <svg
-            width="1239"
-            height="878"
-            viewBox="0 0 1239 878"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/* <ReactSVGPanZoom
+            width={1239}
+            height={878}
+            background="#fff"
+            SVGBackground="#fff"
+            tool={tool}
+            onChangeTool={(tool) => setTool(tool)}
+            value={toolValue}
+            onChangeValue={(value) => setToolValue(value)}
+            onClick={(event) =>
+              console.log(event.x, event.y, event.originalEvent)
+            }
+          > */}
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
           >
-            <g id="mapa-vetorizado">
-              <MapArea />
-              <MapBackground />
-              <MapEntraceLabels />
-              <MapDetails />
-              <MapClasses
-                currentClass={currentClass}
-                handleClassClick={handleClassClick}
-              />
-              <MapEntracePoint />
-            </g>
-            <MapDefs />
-          </svg>
+            <TransformComponent>
+              <svg
+                width="1239"
+                height="878"
+                viewBox="0 0 1239 878"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="mapa-vetorizado">
+                  <MapArea />
+                  <MapBackground />
+                  <MapEntraceLabels />
+                  <MapDetails />
+                  <MapClasses
+                    currentClass={currentClass}
+                    handleClassClick={handleClassClick}
+                  />
+                  <MapEntracePoint />
+                </g>
+                <MapDefs />
+              </svg>
+            </TransformComponent>
+          </TransformWrapper>
+
+          {/* </ReactSVGPanZoom> */}
         </div>
       </div>
     </>
