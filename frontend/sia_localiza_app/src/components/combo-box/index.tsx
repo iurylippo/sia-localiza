@@ -25,6 +25,7 @@ export interface ComboBoxOption {
 
 interface ComboBoxProps {
   defaultValue?: string
+  enableUnchek?: boolean
   options: ComboBoxOption[]
   onSelect: (value: string) => void
   emptyLabel: string
@@ -35,6 +36,7 @@ export function ComboBox({
   emptyLabel,
   options = [],
   onSelect,
+  enableUnchek = false,
 }: ComboBoxProps) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState<ComboBoxOption | null>(null)
@@ -51,12 +53,14 @@ export function ComboBox({
   }, [])
 
   const handleCommandSelect = (currentValue: string) => {
-    if (
-      currentValue === selected?.value ||
-      currentValue === selected?.label?.toLocaleLowerCase()
-    ) {
-      setSelected(null)
-      return
+    if (enableUnchek) {
+      if (
+        currentValue === selected?.value ||
+        currentValue === selected?.label?.toLocaleLowerCase()
+      ) {
+        setSelected(null)
+        return
+      }
     }
 
     const optionFound = options.find(

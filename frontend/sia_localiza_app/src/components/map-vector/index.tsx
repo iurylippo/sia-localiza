@@ -18,7 +18,7 @@ import { SearchButton } from '../buttons/search-button'
 import { Professor } from '@/models/professors'
 import { Subject } from '@/models/subject'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-// import { ReactSVGPanZoom } from 'react-svg-pan-zoom'
+import { useToast } from '../layout/use-toast'
 
 export default function MapVector() {
   const [professorsOptions, setProfessorsOptions] = useState<ComboBoxOption[]>(
@@ -31,8 +31,8 @@ export default function MapVector() {
   const [selectedDayPeriod, setSelectedDayPeriod] = useState('')
   const [selectedProfessor, setSelectedProfessor] = useState('')
   const [selectedSubject, setSelectedSubject] = useState('')
-  // const [tool, setTool] = useState<any>('auto')
-  // const [toolValue, setToolValue] = useState<any>(null)
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
 
   function handleClassClick(className: string) {
     setCurrentClass(className)
@@ -44,21 +44,42 @@ export default function MapVector() {
     const dayPeriod = selectedDayPeriod ?? ''
     const professorId = selectedProfessor ?? ''
     const subjectId = selectedSubject ?? ''
-    const response = await API.get<CampusEvent[]>('/events/campus', {
-      params: {
-        day_week: dayWeek,
-        day_period: dayPeriod,
-        professor_id: professorId,
-        subject_id: subjectId,
-      },
-    })
+    try {
+      setIsLoading(true)
 
-    if (response.data.length) {
-      const data = response.data[0]
-      setCurrentClass(data.class)
-    } else {
-      setCurrentClass('')
+      const response = await API.get<CampusEvent[]>('/events/campus', {
+        params: {
+          day_week: dayWeek,
+          day_period: dayPeriod,
+          professor_id: professorId,
+          subject_id: subjectId,
+        },
+      })
+
+      if (response.data.length) {
+        const data = response.data[0]
+        setCurrentClass(data.class)
+        toast({
+          title: 'Sala encontrada!',
+          description: 'Clique na sala para obter mais detalhes.',
+          variant: 'sucess',
+        })
+      } else {
+        toast({
+          title: 'Sala nao encontrada!',
+          description: 'Tente fazer outro filtro.',
+          variant: 'alert',
+        })
+        setCurrentClass('')
+      }
+    } catch (ex: any) {
+      toast({
+        title: 'Houve algum problema!',
+        description: 'Por favor, contacte o administrador.',
+        variant: 'destructive',
+      })
     }
+    setIsLoading(false)
   }
 
   const loadProfessors = async () => {
@@ -87,7 +108,7 @@ export default function MapVector() {
 
   return (
     <>
-      <div className="container flex items-center justify-start w-full gap-4 mb-4 h-7">
+      <div className="container flex flex-col items-center justify-start w-full gap-4 mb-4 md:flex-row md:h-7">
         <ComboBox
           defaultValue={weekDays.PT[0].value}
           emptyLabel="Dia / semana..."
@@ -104,38 +125,31 @@ export default function MapVector() {
           onSelect={(dayPeriod) => setSelectedDayPeriod(dayPeriod)}
         />
         <ComboBox
+          enableUnchek={true}
           emptyLabel="Professor..."
           options={professorsOptions}
           onSelect={(professorId) => setSelectedProfessor(professorId)}
         />
         <ComboBox
+          enableUnchek={true}
           emptyLabel="Disciplina..."
           options={subjectsOptions}
           onSelect={(subjectId) => setSelectedSubject(subjectId)}
         />
-        <SearchButton onClick={loadCampusEventData} title="Buscar" />
+        <SearchButton
+          isLoading={isLoading}
+          onClick={loadCampusEventData}
+          title="Buscar"
+        />
       </div>
       <div>
-        <div id="map-container" className="md:flex md:justify-center">
+        <div id="map-container" className="flex justify-center">
           <ClassModal
             title={`Classe: ${currentClass}`}
             isModalOpen={isModalOpen}
             onModalClose={() => setIsModalOpen(false)}
             campusFloor={null}
           />
-          {/* <ReactSVGPanZoom
-            width={1239}
-            height={878}
-            background="#fff"
-            SVGBackground="#fff"
-            tool={tool}
-            onChangeTool={(tool) => setTool(tool)}
-            value={toolValue}
-            onChangeValue={(value) => setToolValue(value)}
-            onClick={(event) =>
-              console.log(event.x, event.y, event.originalEvent)
-            }
-          > */}
           <TransformWrapper
             initialScale={1}
             initialPositionX={0}
@@ -164,8 +178,6 @@ export default function MapVector() {
               </svg>
             </TransformComponent>
           </TransformWrapper>
-
-          {/* </ReactSVGPanZoom> */}
         </div>
       </div>
     </>
