@@ -27,6 +27,8 @@ export default function MapVector() {
   const [subjectsOptions, setSubjectsOptions] = useState<ComboBoxOption[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentClass, setCurrentClass] = useState('')
+  const [currentEventCampus, setCurrentEventCampus] = useState<CampusEvent>()
+
   const [selectedDayWeek, setSelectedDayWeek] = useState('')
   const [selectedDayPeriod, setSelectedDayPeriod] = useState('')
   const [selectedProfessor, setSelectedProfessor] = useState('')
@@ -59,6 +61,7 @@ export default function MapVector() {
       if (response.data.length) {
         const data = response.data[0]
         setCurrentClass(data.class)
+        setCurrentEventCampus(data)
         toast({
           title: 'Sala encontrada!',
           description: 'Clique na sala para obter mais detalhes.',
@@ -148,7 +151,7 @@ export default function MapVector() {
             title={`Classe: ${currentClass}`}
             isModalOpen={isModalOpen}
             onModalClose={() => setIsModalOpen(false)}
-            campusFloor={null}
+            data={currentEventCampus}
           />
           <TransformWrapper
             initialScale={1}
