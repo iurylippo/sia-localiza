@@ -86,7 +86,7 @@ export function ComboBox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] justify-between overflow-hidden"
         >
           {selected?.label || emptyLabel}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />

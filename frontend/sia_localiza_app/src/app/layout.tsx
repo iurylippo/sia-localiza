@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'react-responsive-modal/styles.css'
 import 'kalend/dist/styles/index.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 import dynamic from 'next/dynamic'
 const inter = Inter({ subsets: ['latin'] })
 

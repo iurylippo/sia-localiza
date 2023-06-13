@@ -16,15 +16,18 @@ import {
   TableRow,
 } from '@/components/layout/table'
 import { Pagination } from '../pagination'
+import Skeleton from 'react-loading-skeleton'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  isLoading?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isLoading = false,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -65,7 +68,11 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {isLoading ? (
+                      <Skeleton count={5} />
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

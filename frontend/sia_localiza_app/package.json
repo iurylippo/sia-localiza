@@ -42,6 +42,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
     "react-jwt": "^1.2.0",
+    "react-loading-skeleton": "^3.3.1",
     "react-query": "^3.39.3",
     "react-responsive-modal": "^6.4.1",
     "react-svg-pan-zoom": "^3.12.1",

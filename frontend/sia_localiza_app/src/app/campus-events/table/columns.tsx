@@ -62,5 +62,10 @@ export const columns: ColumnDef<CampusEvent>[] = [
     header: 'Classe',
     accessorFn: (e) => e.class,
   },
+  {
+    accessorKey: 'description',
+    header: 'Descrição',
+    accessorFn: (e) => e.description,
+  },
   ...cellDates,
 ]
