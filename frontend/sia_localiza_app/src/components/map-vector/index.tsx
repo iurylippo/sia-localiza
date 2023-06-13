@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../layout/select'
-import { classesNames } from '@/common/constants'
+import { classesNames, weekDays } from '@/common/constants'
 import './styles.css'
 import { MapBackground } from './background'
 import { MapEntraceLabels } from './entrance-label'
@@ -19,9 +19,11 @@ import { MapEntracePoint } from './entrance-point'
 import { MapArea } from './area-path'
 import { CampusEvent } from '@/models/campus-event'
 import { API } from '@/services/api/axios'
+import { ComboBox } from '../combo-box'
 
 export default function MapVector() {
   const [currentClass, setCurrentClass] = useState('a14')
+  const [selectedDayWeek, setSelectedDayWeek] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [data, setData] = useState<CampusEvent[]>([])
 
@@ -36,7 +38,18 @@ export default function MapVector() {
 
   useEffect(() => {
     const loadData = async () => {
-      const response = await API.get<CampusEvent[]>('/events/campus')
+      const dayWeek = selectedDayWeek ?? ''
+      const dayPeriod = ''
+      const professorId = ''
+      const subjectId = ''
+      const response = await API.get<CampusEvent[]>('/events/campus', {
+        params: {
+          day_week: dayWeek,
+          day_period: dayPeriod,
+          professor_id: professorId,
+          subject_id: subjectId,
+        },
+      })
       setData(response.data)
     }
     loadData()
@@ -60,16 +73,19 @@ export default function MapVector() {
             ))}
           </SelectContent>
         </Select>
+        <ComboBox
+          options={weekDays.PT.map((w) => ({ label: w.name, value: w.value }))}
+          onSelect={(dayWeek) => setSelectedDayWeek(dayWeek)}
+        />
       </div>
       <div>
-        <div id="map-container">
+        <div id="map-container" className="flex justify-center">
           <ClassModal
             title={`Classe: ${currentClass}`}
             isModalOpen={isModalOpen}
             onModalClose={() => setIsModalOpen(false)}
             campusFloor={null}
           />
-          <MapEntracePoint />
           <svg
             width="1239"
             height="878"
@@ -86,6 +102,7 @@ export default function MapVector() {
                 currentClass={currentClass}
                 handleClassClick={handleClassClick}
               />
+              <MapEntracePoint />
             </g>
             <MapDefs />
           </svg>

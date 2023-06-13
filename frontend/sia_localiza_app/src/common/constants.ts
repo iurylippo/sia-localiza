@@ -70,3 +70,35 @@ export const classesNames = [
   'a43',
   'a44',
 ]
+export const weekDays = {
+  PT: [
+    {
+      name: 'Segunda',
+      value: 'segunda',
+    },
+    {
+      name: 'Terça',
+      value: 'terca',
+    },
+    {
+      name: 'Quarta',
+      value: 'quarta',
+    },
+    {
+      name: 'Quinta',
+      value: 'quinta',
+    },
+    {
+      name: 'Sexta',
+      value: 'sexta',
+    },
+    {
+      name: 'Sábado',
+      value: 'sabado',
+    },
+    {
+      name: 'Domingo',
+      value: 'domingo',
+    },
+  ],
+}
