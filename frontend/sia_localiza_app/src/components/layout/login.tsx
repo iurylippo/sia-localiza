@@ -39,7 +39,7 @@ export function LoginLayout() {
         // toast.success(`Bem vindo de volta, ${result?.user.name}!`)
         console.log(`Bem vindo de volta, ${result?.user?.name}!`)
         localStorage.setItem('name', result?.user?.name)
-        window.location.href = '/mapa'
+        window.location.href = '/map'
       }
     } catch (error: any) {
       if (

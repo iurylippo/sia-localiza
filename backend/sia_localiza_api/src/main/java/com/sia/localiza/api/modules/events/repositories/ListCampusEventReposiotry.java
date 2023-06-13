@@ -24,9 +24,22 @@ public class ListCampusEventReposiotry {
       Optional<UUID> subjectId,
       Optional<String> className
     ) {
-        if(dayWeek.isPresent() && !dayPeriod.isEmpty() && (!professorId.isEmpty() || !subjectId.isEmpty())) {
-            return this.campusEventRepository.findByFilters(dayWeek, dayPeriod, professorId, subjectId, className);
+        var dayWeekFilter = dayWeek.isPresent() ? dayWeek.get().toString() : null;
+        var dayPeriodFilter = dayPeriod.isPresent() ? dayPeriod.get().toString() : null;
+        var professorIdFilter = professorId.isPresent() ? professorId.get().toString() : null;
+        var subjectIdFilter = subjectId.isPresent() ? subjectId.get().toString() : null;
+        var classNameFilter = className.isPresent() ? className.toString() : null;
+
+        if(dayWeek.isPresent() && dayPeriod.isPresent() && (!professorId.isEmpty() || !subjectId.isEmpty())) {
+            return this.campusEventRepository.findByFilters(
+                dayWeekFilter,
+                dayPeriodFilter,
+                professorIdFilter,
+                subjectIdFilter,
+                classNameFilter
+            );
         }
+        
         return this.campusEventRepository.findAll();
     }
 }

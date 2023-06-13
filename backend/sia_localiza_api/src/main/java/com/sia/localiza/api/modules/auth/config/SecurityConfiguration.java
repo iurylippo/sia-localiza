@@ -12,8 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import com.sia.localiza.api.modules.auth.exceptions.PermissionDenied;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -27,7 +25,6 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    try {
       http
           .csrf()
           .disable()
@@ -83,9 +80,6 @@ public class SecurityConfiguration {
           .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
 
       return http.build();
-    } catch (Exception ex) {
-      throw new PermissionDenied();
-    }
 
   }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import com.sia.localiza.api.modules.auth.exceptions.UnauthorizedException;
 import com.sia.localiza.api.modules.auth.repositories.TokenRepository;
 import com.sia.localiza.api.modules.auth.services.JwtService;
 
@@ -48,7 +49,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt;
             final String userEmail;
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                filterChain.doFilter(request, response);
+                this.exceptionResolver.resolveException(request, response, null, new UnauthorizedException());
+                // filterChain.doFilter(request, response);
                 return;
             }
             jwt = authHeader.substring(7);
@@ -67,6 +69,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+
+                if (jwtService.isTokenValid(jwt, userDetails) && !isTokenValid) {
+                    this.exceptionResolver.resolveException(request, response, null, new UnauthorizedException());
+                    return;
                 }
             }
             filterChain.doFilter(request, response);
