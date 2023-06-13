@@ -18,29 +18,62 @@ import { useEffect, useState } from 'react'
 import { Button } from '../layout/button'
 import { cn } from '@/utils'
 
-interface ComboBoxOption {
+export interface ComboBoxOption {
   label: string
   value: string
 }
 
 interface ComboBoxProps {
+  defaultValue?: string
   options: ComboBoxOption[]
   onSelect: (value: string) => void
+  emptyLabel: string
 }
 
-export function ComboBox({ options, onSelect }: ComboBoxProps) {
+export function ComboBox({
+  defaultValue = '',
+  emptyLabel,
+  options = [],
+  onSelect,
+}: ComboBoxProps) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
+  const [selected, setSelected] = useState<ComboBoxOption | null>(null)
 
   useEffect(() => {
-    console.log('OPA')
+    if (selected === null && defaultValue !== '') {
+      setSelected(
+        options.find(
+          (o) =>
+            o.value === defaultValue || o.label.toLowerCase() === defaultValue,
+        ) || null,
+      )
+    }
   }, [])
 
-  useEffect(() => {
-    if (value !== '') {
-      onSelect(value)
+  const handleCommandSelect = (currentValue: string) => {
+    if (
+      currentValue === selected?.value ||
+      currentValue === selected?.label?.toLocaleLowerCase()
+    ) {
+      setSelected(null)
+      return
     }
-  }, [value])
+
+    const optionFound = options.find(
+      (o) => o.value === currentValue || o.label.toLowerCase() === currentValue,
+    )
+    console.log('optionFound', optionFound)
+    if (optionFound) {
+      setSelected(optionFound)
+    }
+  }
+
+  useEffect(() => {
+    console.log('value', selected)
+    if (selected && selected?.value !== '') {
+      onSelect(selected.value)
+    }
+  }, [selected])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -51,32 +84,32 @@ export function ComboBox({ options, onSelect }: ComboBoxProps) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? options.find((framework) => framework.value === value)?.label
-            : 'Select framework...'}
+          {selected?.label || emptyLabel}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder={emptyLabel} />
+          <CommandEmpty>Sem dados...</CommandEmpty>
           <CommandGroup>
-            {options.map((framework) => (
+            {options.map((option) => (
               <CommandItem
-                key={framework.value}
+                key={option.value}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue)
+                  handleCommandSelect(currentValue)
                   setOpen(false)
                 }}
               >
                 <Check
                   className={cn(
                     'mr-2 h-4 w-4',
-                    value === framework.value ? 'opacity-100' : 'opacity-0',
+                    selected?.value === option.value
+                      ? 'opacity-100'
+                      : 'opacity-0',
                   )}
                 />
-                {framework.label}
+                {option.label}
               </CommandItem>
             ))}
           </CommandGroup>

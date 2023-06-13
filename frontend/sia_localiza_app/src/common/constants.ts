@@ -102,3 +102,19 @@ export const weekDays = {
     },
   ],
 }
+export const weekPeriods = {
+  PT: [
+    {
+      name: 'Manhã',
+      value: 'manha',
+    },
+    {
+      name: 'Tarde',
+      value: 'tarde',
+    },
+    {
+      name: 'Noite',
+      value: 'noite',
+    },
+  ],
+}
