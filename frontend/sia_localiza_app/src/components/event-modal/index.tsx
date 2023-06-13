@@ -3,13 +3,7 @@ import { useForm } from 'react-hook-form'
 import { Modal } from 'react-responsive-modal'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/layout/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/layout/select'
+
 import { toast } from '@/components/layout/use-toast'
 import { PaletteIcon, Trash2Icon } from 'lucide-react'
 
@@ -18,24 +12,24 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
   Form,
 } from '@/components/layout/form'
-import { professorsFake } from '@/@seed/data-fake/professors'
-import { formatDateDay, formatDateHour } from '@/utils'
-import { subjectsFake } from '@/@seed/data-fake/subjects'
-import { PopoverPicker } from '../color-picker'
 import { blockColors } from './styles'
 import { Event } from '@/models/events'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '../layout/input'
+import { ComboBox } from '../combo-box'
+import { weekDays, weekPeriods } from '@/common/constants'
+import { PopoverPicker } from '../color-picker'
+import { API } from '@/services/api/axios'
+import { AxiosError, HttpStatusCode } from 'axios'
 
 interface ClassModalProps {
   name?: string
   isModalOpen: boolean
   onModalClose: () => void
-  eventData?: Event
+  data?: Event
   type: 'create' | 'update'
 }
 
@@ -49,15 +43,23 @@ const FormSchema = z.object({
   summary: z.string({
     required_error: 'Por favor preencha o nome do evento.',
   }),
-  professor_id: z.string({
-    required_error: 'Por favor selecione um professor.',
+  day_week: z.string({
+    required_error: 'Por favor selecione Dia/Semana.',
   }),
-  subject_id: z.string({
-    required_error: 'Por favor selecione uma disciplina.',
+  day_period: z.string({
+    required_error: 'Por favor selecione Dia/Período.',
   }),
-  color: z.string({
-    required_error: 'Por favor selecione uma cor.',
+  start_at: z.string({
+    required_error: 'Por favor selecione Hora/Início.',
   }),
+  end_at: z.string({
+    required_error: 'Por favor selecione Hora/Fim.',
+  }),
+  color: z
+    .string({
+      required_error: 'Por favor selecione uma cor.',
+    })
+    .optional(),
 })
 
 export function EventModal({
@@ -65,30 +67,45 @@ export function EventModal({
   type = 'create',
   isModalOpen,
   onModalClose,
-  eventData,
+  data,
 }: ClassModalProps) {
+  const [isModalOpenIntern, setIsModalOpenIntern] = useState(false)
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      color: eventData?.color,
-      professor_id: eventData?.professor_id,
-      subject_id: eventData?.subject_id,
+      summary: data?.summary,
+      day_week: data?.day_week,
+      day_period: data?.day_period,
+      start_at: data?.start_at,
+      end_at: data?.end_at,
+      color: data?.color,
     },
   })
 
   useEffect(() => {
+    setIsModalOpenIntern(isModalOpen)
+  }, [isModalOpen])
+
+  useEffect(() => {
     if (type === 'update') {
-      if (eventData?.summary) {
-        form.setValue('summary', eventData.summary)
+      if (data?.summary) {
+        form.setValue('summary', data.summary)
       }
-      if (eventData?.color) {
-        form.setValue('color', eventData.color)
+      if (data?.color) {
+        form.setValue('color', data.color)
       }
-      if (eventData?.professor_id) {
-        form.setValue('professor_id', eventData.professor_id)
+      if (data?.day_week) {
+        form.setValue('day_week', data.day_week)
       }
-      if (eventData?.subject_id) {
-        form.setValue('subject_id', eventData.subject_id)
+      if (data?.day_period) {
+        form.setValue('day_period', data.day_period)
+      }
+      if (data?.start_at) {
+        form.setValue('end_at', data.start_at)
+      }
+      if (data?.end_at) {
+        form.setValue('end_at', data.end_at)
       }
     }
 
@@ -96,28 +113,93 @@ export function EventModal({
       form.reset()
       form.setValue('summary', 'Aula')
     }
-  }, [eventData])
+  }, [data])
 
   const getTitle = () => {
     return type === 'create' ? 'Criar evento' : 'Alterar evento'
   }
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('opa', data)
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function create(formData: z.infer<typeof FormSchema>) {
+    try {
+      await API.post('events', formData)
+      toast({
+        title: 'Evento criado com sucesso!',
+        variant: 'sucess',
+      })
+      setIsModalOpenIntern(false)
+      onModalClose()
+    } catch (err: any) {
+      if (err) {
+        const erroAxios = err as AxiosError<{ message: string }>
+        console.log(erroAxios)
+        if (
+          erroAxios?.response?.status === HttpStatusCode.BadRequest &&
+          erroAxios?.response?.data?.message
+        ) {
+          const messageError = err.response.data.message as string
+          if (messageError) {
+            toast({
+              title: messageError,
+              variant: 'destructive',
+            })
+            return
+          }
+        }
+      }
+      toast({
+        title: 'Houve algum problema!',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  async function update(formData: Event) {
+    try {
+      await API.put(`events/${data?.id}`, formData)
+      toast({
+        title: 'Evento alterado com sucesso!',
+        variant: 'sucess',
+      })
+      setIsModalOpenIntern(false)
+      onModalClose()
+    } catch (err: any) {
+      if (err) {
+        const erroAxios = err as AxiosError<{ message: string }>
+        console.log(erroAxios)
+        if (
+          erroAxios?.response?.status === HttpStatusCode.BadRequest &&
+          erroAxios?.response?.data?.message
+        ) {
+          const messageError = err.response.data.message as string
+          if (messageError) {
+            toast({
+              title: messageError,
+              variant: 'destructive',
+            })
+            return
+          }
+        }
+      }
+      toast({
+        title: 'Houve algum problema!',
+        variant: 'destructive',
+      })
+    }
+  }
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (type === 'create') {
+      await create(data)
+    }
+    if (type === 'update') {
+      await update(data as Event)
+    }
   }
 
   return (
     <Modal
       styles={modalstyles}
-      open={isModalOpen}
+      open={isModalOpenIntern}
       onClose={onModalClose}
       center
     >
@@ -132,21 +214,7 @@ export function EventModal({
               />
             </div>
           )}
-
-          <div>
-            <label className="font-bold">Dia:</label>
-            <span> {formatDateDay(eventData?.day ?? '')}</span>
-          </div>
-          <div>
-            <label className="font-bold">Horário início:</label>
-            <span> {formatDateHour(eventData?.startAt ?? '')}</span>
-          </div>
-          <div>
-            <label className="font-bold">Horário fim:</label>
-            <span> {formatDateHour(eventData?.endAt ?? '')}</span>
-          </div>
         </div>
-
         <div>
           <Form {...form}>
             <form
@@ -167,6 +235,73 @@ export function EventModal({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="day_week"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dia/Semana:</FormLabel>
+                    <ComboBox
+                      defaultValue={data?.day_week}
+                      emptyLabel="dia/semana..."
+                      options={weekDays.PT.map((w) => ({
+                        label: w.name,
+                        value: w.value,
+                      }))}
+                      onSelect={field.onChange}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="day_period"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dia/Período:</FormLabel>
+                    <ComboBox
+                      defaultValue={data?.day_period}
+                      emptyLabel="dia/período..."
+                      options={weekPeriods.PT.map((w) => ({
+                        label: w.name,
+                        value: w.value,
+                      }))}
+                      onSelect={field.onChange}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="start_at"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hora/Início:</FormLabel>
+                    <Input
+                      onChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="end_at"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hora/Fim:</FormLabel>
+                    <Input
+                      onChange={field.onChange}
+                      defaultValue={field.value}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="color"
@@ -175,7 +310,7 @@ export function EventModal({
                     <FormLabel>Cor:</FormLabel>
                     <div className="flex gap-1">
                       <PopoverPicker
-                        color={field.value}
+                        color={field.value || '#fff'}
                         onChange={field.onChange}
                       />
                       <PaletteIcon />
@@ -190,61 +325,6 @@ export function EventModal({
                         ></div>
                       ))}
                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="professor_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Professor:</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="min-w-full">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecionar um(a) professor(a)..." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {professorsFake.map((p) => (
-                          <SelectItem key={p.id} value={p.id}>
-                            {p.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="subject_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Disciplina:</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl className="min-w-full">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecionar uma disciplina..." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {subjectsFake.map((p) => (
-                          <SelectItem key={p.id} value={p.id}>
-                            {p.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

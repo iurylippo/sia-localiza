@@ -27,12 +27,10 @@ export default function CampusEvents() {
 
   const loadCampusEventsData = async () => {
     try {
-      console.log('consultado...')
       setIsLoading(true)
       const response = await API.get<CampusEvent[]>('/events/campus')
       setData(response.data)
       setIsLoading(false)
-      console.log('consultou...')
     } catch (err: any) {
       toast({
         title: 'Houve algum problema!',
@@ -59,11 +57,6 @@ export default function CampusEvents() {
     }
   }
 
-  useEffect(() => {
-    const loadData = loadCampusEventsData
-    loadData()
-  }, [])
-
   const handleUpdate = (model: CampusEvent) => {
     setCurrentCampusEventUpdate(model)
     setIsCampusEventCreateUpdateModalOpen(true)
@@ -81,6 +74,11 @@ export default function CampusEvents() {
       onClickDelete: (id) => handleDelete(id),
     }),
   ]
+
+  useEffect(() => {
+    const loadData = loadCampusEventsData
+    loadData()
+  }, [])
 
   return (
     <div>

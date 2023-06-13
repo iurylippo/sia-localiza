@@ -6,6 +6,7 @@ export interface Event {
   updated_at: string
   day_week: string
   day_period: string
+  color?: string
   start_at: string
   end_at: string
 }

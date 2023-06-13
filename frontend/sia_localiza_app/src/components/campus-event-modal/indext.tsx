@@ -22,6 +22,7 @@ import { Subject } from '@/models/subject'
 import { classesNames } from '@/common/constants'
 import { Input } from '../layout/input'
 import { toast } from '../layout/use-toast'
+import { AxiosError, HttpStatusCode } from 'axios'
 
 interface ClassModalProps {
   isModalOpen: boolean
@@ -110,6 +111,27 @@ export function CampusEventModal({
       setIsModalOpenIntern(false)
       onModalClose()
     } catch (err: any) {
+      if (err) {
+        const erroAxios = err as AxiosError<{ message: string }>
+        console.log(erroAxios)
+        if (
+          erroAxios?.response?.status === HttpStatusCode.BadRequest &&
+          erroAxios?.response?.data?.message
+        ) {
+          const messageError = err.response.data.message as string
+          if (
+            messageError.includes(
+              'CampusEvent Relations combined(event_id,professor_id,subject_id,class) already exists!',
+            )
+          ) {
+            toast({
+              title: 'Já existe um Campus evento nesta combinação!',
+              variant: 'destructive',
+            })
+            return
+          }
+        }
+      }
       toast({
         title: 'Houve algum problema!',
         variant: 'destructive',
@@ -127,6 +149,26 @@ export function CampusEventModal({
       setIsModalOpenIntern(false)
       onModalClose()
     } catch (err: any) {
+      if (err) {
+        const erroAxios = err as AxiosError<{ message: string }>
+        if (
+          erroAxios?.response?.status === HttpStatusCode.BadRequest &&
+          erroAxios?.response?.data?.message
+        ) {
+          const messageError = err.response.data.message as string
+          if (
+            messageError.includes(
+              'CampusEvent Relations combined(event_id,professor_id,subject_id,class) already exists!',
+            )
+          ) {
+            toast({
+              title: 'Já existe um Campus evento nesta combinação!',
+              variant: 'destructive',
+            })
+            return
+          }
+        }
+      }
       toast({
         title: 'Houve algum problema!',
         variant: 'destructive',
