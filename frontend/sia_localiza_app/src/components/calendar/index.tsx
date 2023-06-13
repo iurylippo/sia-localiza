@@ -10,7 +10,7 @@ import { Event } from '@/models/events'
 const CalendComponent = (props: KalendProps) => {
   const [openCreateEventModal, setOpenCreateEventModal] = useState(false)
   const [demoEvents, setDemoEvents] = useState([])
-  const [eventData, setEventData] = useState<Event>()
+  const [eventData, setEventData] = useState<any>()
   const [type, setType] = useState<'create' | 'update'>('create')
 
   // Create and load demo events

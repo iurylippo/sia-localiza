@@ -6,6 +6,8 @@ import {
   PencilSquareIcon,
   BookOpenIcon,
   CalendarDaysIcon,
+  CalendarIcon,
+  AcademicCapIcon,
 } from '@heroicons/react/24/outline'
 import { NavItem } from './sidebar'
 
@@ -23,12 +25,12 @@ export const defaultNavItems: NavItem[] = [
   {
     label: 'Campus eventos',
     href: '/campus-events',
-    icon: <CalendarDaysIcon className="w-6 h-6" />,
+    icon: <AcademicCapIcon className="w-6 h-6" />,
   },
   {
     label: 'Eventos',
     href: '/events',
-    icon: <CalendarDaysIcon className="w-6 h-6" />,
+    icon: <CalendarIcon className="w-6 h-6" />,
   },
   {
     label: 'Cursos',

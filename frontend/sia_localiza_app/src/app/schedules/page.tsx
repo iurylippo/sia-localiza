@@ -1,4 +1,5 @@
 'use client'
+import { PageControl } from '@/components/page-control/indext'
 import dynamic from 'next/dynamic'
 import { ComponentProps } from 'react'
 
@@ -18,7 +19,7 @@ const calendarWrapper =
 export default function Shedules(props?: any) {
   return (
     <div>
-      <h1>Eventos</h1>
+      <PageControl title="Agenda" />
       <div className={wrapper}>
         <div className={calendarWrapper}>
           <CalendComponent isDark={false} />

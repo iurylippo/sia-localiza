@@ -112,7 +112,7 @@ export default function MapVector() {
         <SearchButton onClick={loadCampusEventData} title="Buscar" />
       </div>
       <div>
-        <div id="map-container" className="flex justify-center">
+        <div id="map-container" className="md:flex md:justify-center">
           <ClassModal
             title={`Classe: ${currentClass}`}
             isModalOpen={isModalOpen}

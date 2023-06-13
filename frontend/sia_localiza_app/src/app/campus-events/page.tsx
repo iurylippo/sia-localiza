@@ -37,7 +37,7 @@ export default function CampusEvents() {
 
   return (
     <div>
-      <PageControl title="Eventos" />
+      <PageControl title="Campus Eventos" />
 
       <div className="container py-10 mx-auto">
         <DataTable columns={cols} data={data} />
