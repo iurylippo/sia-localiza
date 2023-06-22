@@ -1,0 +1,8 @@
+.vscode
+pgdata/
+.idea
+.env
+.m2
+target/
+node_modules/
+bin/

@@ -1,0 +1,27 @@
+openapi: 3.0.1
+tags:
+  - name: users
+    description: User services
+paths:
+  /users/{user_id}:
+    get:
+      tags:
+        - users
+      security:
+        - UserAuth: []
+      summary: Get a User
+      description: Get a User
+      produces:
+        - application/json
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: user id
+      responses:
+        200:
+          description: An paged array of User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'

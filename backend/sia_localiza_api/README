@@ -1,0 +1,20 @@
+# SIA LOCALIZA BACKEND
+
+### DOCKER
+ docker-compose up --build
+ docker-compose exec app sh
+ obs: para executar o maven dentro do container usar (./mvnw) ex: "./mvnw clean package -DskipTests"
+
+### commands
+ mvn -N io.takari:maven:wrapper // add mvn files 
+ mvn package install dependencies
+ mvn dependency:purge-local-repository //puxa novamente as dependencias
+ mvn clean package -DskipTests //build do arquivo .jar sem tests
+ 
+ ##permissions error
+ sudo chown -R 1000:1000 ./pgdata 
+ sudo chown -R 1000:1000 ./target
+### API DOC
+ http://localhost:8000/swagger-ui/index.html#/
+
+ obs: api em swagger usando openapi 3 em formato de yaml, localizando em resources/docs
